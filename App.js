@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 
 //export default class App extends React.Component  {
 
-export default function App() {
+//export default function App() {
 
     //Oprettelse af databasekonfiguration
     const firebaseConfig = {
@@ -41,58 +41,63 @@ export default function App() {
     })
 
 
-  //oppretter stack navigator som holder styr på navigasjon. Denne delen er ytterste og første del av stacken
-  return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="/start">
-          <Stack.Screen
-              name="/start"
-              component={StartView}
-              options={{ title: 'Start' }}
-          />
-          <Stack.Screen
-              name="/main"
-              component={MainView}
-              options={{ title: 'Main' }}
-          />
-          <Stack.Screen
-              name="/settings"
-              component={SettingsView}
-              options={{ title: 'Settings' }}
-          />
+export default class App extends React.Component {
 
-          <Stack.Screen
-              name="/signUp"
-              component={SignUpView}
-              options={{ title: 'Sign Up' }}
-          />
+    render() {
+        //oppretter stack navigator som holder styr på navigasjon. Denne delen er ytterste og første del av stacken
+        return (
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="/start">
+                    <Stack.Screen
+                        name="/start"
+                        component={StartView}
+                        options={{title: 'Start'}}
+                    />
+                    <Stack.Screen
+                        name="/main"
+                        component={MainView}
+                        options={{title: 'Main'}}
+                    />
+                    <Stack.Screen
+                        name="/settings"
+                        component={SettingsView}
+                        options={{title: 'Settings'}}
+                    />
 
-          <Stack.Screen
-              name="/login"
-              component={LoginView}
-              options={{ title: 'Login' }}
-          />
+                    <Stack.Screen
+                        name="/signUp"
+                        component={SignUpView}
+                        options={{title: 'Sign Up'}}
+                    />
 
-          <Stack.Screen
-              name="/documentation"
-              component={DocumentationView}
-              options={{ title: 'Documentation' }}
-          />
+                    <Stack.Screen
+                        name="/login"
+                        component={LoginView}
+                        options={{title: 'Login'}}
+                    />
 
-          <Stack.Screen
-              name="/calendar"
-              component={CalendarView}
-              options={{title:'Calendar'}}
-          />
+                    <Stack.Screen
+                        name="/documentation"
+                        component={DocumentationView}
+                        options={{title: 'Documentation'}}
+                    />
 
-          <Stack.Screen
-              name="/map"
-              component={MapView}
-              options={{title:'Map'}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-  );
+                    <Stack.Screen
+                        name="/calendar"
+                        component={CalendarView}
+                        options={{title: 'Calendar'}}
+                    />
+
+                    <Stack.Screen
+                        name="/map"
+                        component={MapView}
+                        options={{title: 'Map'}}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        );
+
+    }
 }
 
 const styles = StyleSheet.create({

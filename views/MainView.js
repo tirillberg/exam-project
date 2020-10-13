@@ -104,10 +104,10 @@ export default function MainView({navigation}) {
                         list: list,
                         settings: settings,
                     })}>
-                <Text>Settings</Text>
+                <Text>Button</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/*<TouchableOpacity
                 style={styles.orangeButton}
                 onPress={() => navigation.push('/calendar',)}>
                 <Text>Calendar</Text>
@@ -117,7 +117,7 @@ export default function MainView({navigation}) {
                 style={styles.orangeButton}
                 onPress={() => navigation.push('/map',)}>
                 <Text>Map</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
 
         </View>
     );
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 30,
         marginTop: 10,
-        marginBottom: 10,
+        marginBottom: 50,
         alignItems: 'center',
         justifyContent: 'center',
     },

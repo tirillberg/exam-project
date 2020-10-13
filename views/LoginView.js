@@ -2,7 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState, Component} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import * as firebase from 'firebase';
+import {createBottomTabNavigator} from "react-navigation-tabs";
+import {createAppContainer} from "react-navigation";
+import {AntDesign} from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MainView from "./MainView";
+import CalendarView from "./CalendarView";
+import DocumentationView from "./DocumentationView";
+import MapView from "./MapView";
+import SettingsView from "./SettingsView";
 
 export default class SignIn extends Component {
 
@@ -14,7 +24,7 @@ export default class SignIn extends Component {
 
     loginUser = async () => {
         const { email, password } = this.state;
-        console.log('hei');
+        console.log('console log error');
         try {
             // Here the data is passed to the service and we wait for the result
             const output =  await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -22,7 +32,7 @@ export default class SignIn extends Component {
             this.setState({ isLoggedIn: true });
         } catch (error) {
             console.log(error.message);
-            alert('Feil brukernavn eller passord')
+            alert('Wrong username or password')
             this.setState({ isLoggedIn: false });
         }
     };
@@ -34,7 +44,7 @@ export default class SignIn extends Component {
     render(){
         if(this.state.isLoggedIn){
             return(
-                <MainView/>
+                <AppBottomNav/>
             )
         }else{
 
@@ -209,4 +219,86 @@ const styles = StyleSheet.create({
 
 
 });
+
+
+// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen. Det er altså menyen som ligger nede i systemet, og skal
+// hjelpe med å navigere.
+const TabNavigator = createBottomTabNavigator(
+    {
+        /*Tilføj routes*/
+        Main: {
+            /*Hvilket view skal loades*/
+            screen: MainView,
+            /*Instillinger til navigation*/
+            navigationOptions: {
+                /*Navn*/
+                tabBarLabel:"Home",
+                /*Ikon*/
+                tabBarIcon: ({ tintColor }) => (
+                    <AntDesign name="home" size={24} color="black" />
+                    )
+            },
+        },
+
+        Calendar: {
+            screen: CalendarView,
+            navigationOptions: {
+                tabBarLabel:"Calendar",
+                tabBarIcon: ({ tintColor }) => (
+                    <MaterialCommunityIcons name="calendar-month-outline" size={24} color="black" />
+                )
+            },
+        },
+
+
+        Map: {
+            screen: MapView,
+            navigationOptions: {
+                tabBarLabel:"Map",
+                tabBarIcon: ({ tintColor }) => (
+                    <Entypo name="address" size={24} color="black" />
+                    )
+            },
+        },
+
+        Documentation: {
+            screen: DocumentationView,
+            navigationOptions: {
+                tabBarLabel:"Docs",
+                tabBarIcon: ({ tintColor }) => (
+                    <AntDesign name="exception1" size={24} color="black" />
+                    )
+            },
+        },
+
+        /*Navn på Route*/
+        Settings: {
+            screen: SettingsView,
+            navigationOptions: {
+                tabBarLabel:"Settings",
+                tabBarIcon: ({ tintColor }) => (
+                    <Feather name="settings" size={24} color="black" />
+                    )
+            },
+        },
+
+
+    },
+    /*Generelle label indstillinger*/
+    {
+        tabBarOptions: {
+            showIcon:true,
+            labelStyle: {
+                fontSize: 15,
+            },
+            activeTintColor: '#FF6400',
+            inactiveTintColor: 'black',
+            size:40
+        }
+    }
+
+)
+
+
+const AppBottomNav = createAppContainer(TabNavigator);
 
