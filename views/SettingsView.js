@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: 'orange',
+        color: '#FF6400',
         fontSize: 40,
         fontWeight: 'bold',
         marginBottom: 30,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
 
     orangeButton:{
-        backgroundColor: 'orange',
+        backgroundColor: '#FF6400',
         color: '#47525E',
         width: '75%',
         height: '7.5%',

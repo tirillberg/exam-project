@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 
     header:{
-        color: 'orange',
+        color: '#FF6400',
         fontSize: 50,
         fontWeight: 'bold',
         marginTop: 35,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
 
     orangeButton:{
-        backgroundColor: 'orange',
+        backgroundColor: '#FF6400',
         color: '#47525E',
         width: '75%',
         height: '10%',
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 
     signUpText: {
         fontWeight:'bold',
-        color: 'white'
+        color: '#B3B3B3'
     },
 
     image:{

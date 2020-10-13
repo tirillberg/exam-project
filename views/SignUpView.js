@@ -197,11 +197,8 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
 import * as React from 'react';
-import {Button, Text, View, TextInput, ActivityIndicator, StyleSheet} from 'react-native';
+import {Button, Text, View, TextInput, ActivityIndicator, StyleSheet, Image} from 'react-native';
 import firebase from "firebase";
 
 export default class SignUpView extends React.Component {
@@ -266,7 +263,17 @@ export default class SignUpView extends React.Component {
             </TouchableOpacity>
         }
         return (
-            <View>
+            <View style={styles.container}>
+
+                <Image
+                    style={styles.image}
+                    source={{uri: 'https://d3tpltn2ezya42.cloudfront.net/media/p/556x200/1489657373/logo-desktop.png'}}
+                />
+
+
+                <Text style={styles.subHeader}>REGISTER AS VOLUNTEER</Text>
+
+
                 {/*<TextInput
                     placeholder="name"
                     value={name}
@@ -277,14 +284,18 @@ export default class SignUpView extends React.Component {
                     placeholder="email"
                     value={email}
                     onChangeText={this.handleChangeEmail}
-                    style={styles.inputField}
+                    placeholderTextColor = 'white'
+                    selectionColor={'orange'}
+                    style={styles.textInput}
                 />
                 <TextInput
                     placeholder="password"
                     value={password}
                     onChangeText={this.handleChangePassword}
                     secureTextEntry
-                    style={styles.inputField}
+                    placeholderTextColor = 'white'
+                    selectionColor={'orange'}
+                    style={styles.textInput}
                 />
                 {errorMessage && (
                     <Text style={styles.error}>Error: {errorMessage}</Text>
@@ -300,6 +311,7 @@ export default class SignUpView extends React.Component {
             return <ActivityIndicator />;
         }
         return <Button
+            color='#FF6400'
             onPress={this.handleSubmit}
             title="Register as a new volunteer" />;
     };
@@ -308,9 +320,9 @@ export default class SignUpView extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         backgroundColor: 'black',
-        alignItems: 'center',
+        //alignItems: 'center',
     },
 
     component:{
@@ -319,11 +331,6 @@ const styles = StyleSheet.create({
 
     error: {
         color: 'red',
-    },
-    inputField: {
-        borderWidth: 1,
-        margin: 10,
-        padding: 10,
     },
 
     header:{
@@ -335,10 +342,14 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: 'orange',
-        fontSize: 40,
+        color: '#FF6400',
+        fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 50,
+        marginLeft: 22,
+        marginTop: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     text:{
@@ -400,13 +411,23 @@ const styles = StyleSheet.create({
 
     textInput: {
         height: 40,
-        width:300,
+        width:'70%',
         fontSize: 18,
         borderRadius: 0,
         borderWidth: 0.5,
-        borderColor: '#8190A5',
+        borderColor: 'white',
         marginTop: 10,
         marginBottom: 10,
+        marginLeft: 70,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    image:{
+        marginTop: 10,
+        width: '90%',
+        height: 50,
+        marginLeft: 22,
     },
 
 });
