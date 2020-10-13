@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 
 export default function EditGoalView({route, navigation}) {
 
@@ -18,6 +18,12 @@ export default function EditGoalView({route, navigation}) {
             </TouchableOpacity>
 
             <Text style={styles.subHeader}>YOUR SETTINGS</Text>
+
+            <Image
+                style={styles.image}
+                source={{uri: 'https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png'}}
+                //source={{uri: 'https://i.stack.imgur.com/l60Hf.png'}}
+            />
 
             <TextInput
                 style={styles.textInput}
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
         color: 'orange',
         fontSize: 40,
         fontWeight: 'bold',
-        marginBottom: 100,
+        marginBottom: 30,
         marginTop: 20,
     },
 
@@ -149,6 +155,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         color: 'white',
+    },
+
+    image:{
+        marginTop: 5,
+        marginBottom: 20,
+        width: 105,
+        height: 105,
     },
 
 

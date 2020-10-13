@@ -11,7 +11,6 @@ export default function MainView({navigation}) {
             name: 'Name: '+'Volunteer 1',
             password: 'Password: '+'********',
             email: 'Email: '+'volunteer@email.com',
-            birthday: 'Birthday: '+'10.10.2001',
         },
 
     ]);
@@ -137,18 +136,18 @@ const styles = StyleSheet.create({
     },
 
     list:{
-        backgroundColor: 'grey',
+        backgroundColor: 'black',
         width: '85%',
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#8190A5',
+        borderColor: 'white',
         marginTop: 20,
         marginBottom: 20,
     },
 
     listItem:{
-        backgroundColor: 'grey',
+        backgroundColor: 'black',
         width: '100%',
         borderWidth: 0,
         marginTop: 10,
@@ -201,8 +200,8 @@ const styles = StyleSheet.create({
         borderColor: '#47525E',
         paddingVertical: 5,
         paddingHorizontal: 30,
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 10,
+        marginBottom: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },

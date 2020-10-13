@@ -14,7 +14,7 @@ export default function StartView({navigation}) {
                 source={{uri: 'https://pbs.twimg.com/profile_images/1283916855/BL_square_400x400.jpg'}}
             />
 
-            <Text style={styles.header}>APP FOR FRIVILLIGE</Text>
+            <Text style={styles.header}>VELKOMMEN!</Text>
 
             <TouchableOpacity
                 style={styles.orangeButton}
@@ -42,7 +42,7 @@ export default function StartView({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         backgroundColor: 'black',
         alignItems: 'center',
     },
