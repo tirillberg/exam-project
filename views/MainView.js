@@ -1,15 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
 
 export default function MainView({navigation}) {
 
-    //Use state hook for goal list and for adding new goal to list
+    //Use state hook for list and for adding new volunteers to list
     const [list, settings] = useState([
-        {
+       {
             id: 1,
             name: 'Name: '+'Volunteer 1',
-            username: 'Username: '+'volunteer1',
             password: 'Password: '+'********',
             email: 'Email: '+'volunteer@email.com',
             birthday: 'Birthday: '+'10.10.2001',
@@ -26,9 +25,74 @@ export default function MainView({navigation}) {
                 source={{uri: 'https://d3tpltn2ezya42.cloudfront.net/media/p/556x200/1489657373/logo-desktop.png'}}
             />
 
-            <Text style={styles.subHeader}>APP FOR FRIVILLIGE</Text>
+            {/*<Text style={styles.subHeader}>APP FOR FRIVILLIGE</Text>*/}
 
-            <Text style={styles.text1}>There are {list.length} volunteers registered!</Text>
+            {/*<Text style={styles.text1}>There are {list.length} volunteers registered!</Text>*/}
+
+            {/*Check if goal list is empty or not*/}
+            {list.length > 0 ?
+                (
+                    <View style={styles.list}>
+                        {/*Iterating through list, return view for each goal item*/}
+                        {list.map(volunteer=>{
+                            return (
+                                <TouchableOpacity
+                                    style={styles.listItem}
+                                    //placeholderTextColor = 'white'
+                                    key={volunteer.id}
+                                    onPress={()=>navigation.push('/settings',
+                                        {
+                                            // volunteer: volunteer, <-- dette betyr det samme som under
+                                            id: volunteer.id,
+                                            name: volunteer.name,
+                                            password: volunteer.password,
+                                            email: volunteer.email,
+
+                                            //metodene som er kaldt lenger oppe:
+                                            //editGoalList: settings,
+                                            //list: list,
+
+                                        })} >
+
+                                    <Text style={styles.text2}>
+                                        {volunteer.name}
+                                    </Text>
+
+                                    <Text style={styles.text2}>
+                                        {volunteer.password}
+                                    </Text>
+
+                                    <Text style={styles.text2}>
+                                        {volunteer.email}
+                                    </Text>
+
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </View>
+                ) :
+                (
+                    <View>
+                        <Text>
+                            Tom liste
+                        </Text>
+                    </View>
+                )
+
+            }
+
+            <Text style={styles.subHeader}>LATEST NEWS!</Text>
+
+            <ScrollView style={styles.StyledView}>
+                <Text style={styles.text1}>
+                    Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
+                    Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
+                    Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
+                    Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
+                    Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
+                    Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
+                </Text>
+            </ScrollView>
 
             <TouchableOpacity
                 style={styles.orangeButton}
@@ -44,65 +108,17 @@ export default function MainView({navigation}) {
                 <Text>Settings</Text>
             </TouchableOpacity>
 
-            {/*Check if goal list is empty or not*/}
-            {list.length > 0 ?
-                (
-                    <View style={styles.list}>
-                        {/*Iterating through list, return view for each goal item*/}
-                        {list.map(volunteer=>{
-                            return (
-                                <TouchableOpacity
-                                    style={styles.listItem}
-                                    key={volunteer.id}
-                                    onPress={()=>navigation.push('/settings',
-                                        {
-                                            // volunteer: volunteer, <-- dette betyr det samme som under
-                                            id: volunteer.id,
-                                            name: volunteer.name,
-                                            username: volunteer.username,
-                                            password: volunteer.password,
-                                            email: volunteer.email,
-                                            birthday: volunteer.birthday,
+            <TouchableOpacity
+                style={styles.orangeButton}
+                onPress={() => navigation.push('/calendar',)}>
+                <Text>Calendar</Text>
+            </TouchableOpacity>
 
-                                            //metodene som er kaldt lenger oppe:
-                                            //editGoalList: settings,
-                                            //list: list,
-
-                                        })} >
-
-                                    <Text style={styles.text2}>
-                                        {volunteer.name}
-                                    </Text>
-
-                                    <Text style={styles.text2}>
-                                        {volunteer.username}
-                                    </Text>
-
-                                    <Text style={styles.text2}>
-                                        {volunteer.password}
-                                    </Text>
-
-                                    <Text style={styles.text2}>
-                                        {volunteer.email}
-                                    </Text>
-
-                                    <Text style={styles.text2}>
-                                        {volunteer.birthday}
-                                    </Text>
-
-                                </TouchableOpacity>
-                            )
-                        })}
-                    </View>
-                ) :
-                (
-                    <View>
-                        <Text>
-                            Tom liste
-                        </Text>
-                    </View>
-                )
-            }
+            <TouchableOpacity
+                style={styles.orangeButton}
+                onPress={() => navigation.push('/map',)}>
+                <Text>Map</Text>
+            </TouchableOpacity>
 
         </View>
     );
@@ -111,7 +127,7 @@ export default function MainView({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.5,
+        flex: 1,
         backgroundColor: 'black',
         alignItems: 'center',
     },
@@ -121,16 +137,18 @@ const styles = StyleSheet.create({
     },
 
     list:{
-        backgroundColor: '#F8F4EC',
+        backgroundColor: 'grey',
         width: '85%',
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: '#8190A5',
+        marginTop: 20,
+        marginBottom: 20,
     },
 
     listItem:{
-        backgroundColor: '#F8F4EC',
+        backgroundColor: 'grey',
         width: '100%',
         borderWidth: 0,
         marginTop: 10,
@@ -149,8 +167,8 @@ const styles = StyleSheet.create({
         color: 'orange',
         fontSize: 30,
         fontWeight: 'bold',
-        marginTop: 10,
-        marginBottom: 50,
+        marginTop: 0,
+        marginBottom: 20,
     },
 
     text:{
@@ -173,18 +191,18 @@ const styles = StyleSheet.create({
 
 
     orangeButton:{
-        backgroundColor: '#FDDFAC',
+        backgroundColor: 'orange',
         color: '#47525E',
         width: '60%',
-        height: '10%',
+        height: '7%',
         elevation: 8,
         borderRadius: 10,
         borderWidth: 0.5,
         borderColor: '#47525E',
         paddingVertical: 5,
         paddingHorizontal: 30,
-        marginTop: 10,
-        marginBottom: 50,
+        marginTop: 5,
+        marginBottom: 5,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -194,6 +212,10 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 50,
     },
+
+    StyledView:{
+        height: 50,
+    }
 
 });
 

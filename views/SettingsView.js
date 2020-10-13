@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native'
 
 export default function EditGoalView({route, navigation}) {
 
-    const {id, name, username, password, email, birthday} = route.params;
+    const {id, name, password, email} = route.params;
 
     return (
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
@@ -23,31 +23,27 @@ export default function EditGoalView({route, navigation}) {
                 style={styles.textInput}
                 placeholder = {name}
                 onChangeText={(text) => this.setState({text})}
+                placeholderTextColor = 'white'
+                selectionColor={'orange'}
             />
 
-            <TextInput
-                style={styles.textInput}
-                placeholder = {username}
-                onChangeText={(text) => this.setState({text})}
-            />
 
             <TextInput
                 style={styles.textInput}
                 placeholder= {password}
                 onChangeText={(text) => this.setState({text})}
+                placeholderTextColor = 'white'
+                selectionColor={'orange'}
             />
 
             <TextInput
                 style={styles.textInput}
                 placeholder= {email}
                 onChangeText={(text) => this.setState({text})}
+                placeholderTextColor = 'white'
+                selectionColor={'orange'}
             />
 
-            <TextInput
-                style={styles.textInput}
-                placeholder= {birthday}
-                onChangeText={(text) => this.setState({text})}
-            />
 
             <TouchableOpacity
                 style={styles.orangeButton}
@@ -83,7 +79,8 @@ const styles = StyleSheet.create({
         color: 'orange',
         fontSize: 40,
         fontWeight: 'bold',
-        marginBottom: 50,
+        marginBottom: 100,
+        marginTop: 20,
     },
 
     text:{
@@ -110,7 +107,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         paddingHorizontal: 108,
         marginTop: 70,
-        marginBottom: 100,
+        marginBottom: 150,
     },
 
     orangeButtonText: {
@@ -151,6 +148,7 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         marginTop: 10,
         marginBottom: 10,
+        color: 'white',
     },
 
 
