@@ -281,20 +281,20 @@ export default class SignUpView extends React.Component {
                     style={styles.inputField}
                 />*/}
                 <TextInput
-                    placeholder="email"
+                    placeholder=" email"
                     value={email}
                     onChangeText={this.handleChangeEmail}
                     placeholderTextColor = 'white'
-                    selectionColor={'orange'}
+                    selectionColor={'#FF6400'}
                     style={styles.textInput}
                 />
                 <TextInput
-                    placeholder="password"
+                    placeholder=" password"
                     value={password}
                     onChangeText={this.handleChangePassword}
                     secureTextEntry
                     placeholderTextColor = 'white'
-                    selectionColor={'orange'}
+                    selectionColor={'#FF6400'}
                     style={styles.textInput}
                 />
                 {errorMessage && (
@@ -421,6 +421,7 @@ const styles = StyleSheet.create({
         marginLeft: 70,
         alignItems: 'center',
         justifyContent: 'center',
+        color: 'white',
     },
 
     image:{
