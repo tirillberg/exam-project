@@ -7,7 +7,6 @@ import {createAppContainer} from "react-navigation";
 import {AntDesign} from "@expo/vector-icons";
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MainView from "./MainView";
 import CalendarView from "./CalendarView";
 import DocumentationView from "./DocumentationView";
@@ -232,10 +231,10 @@ const TabNavigator = createBottomTabNavigator(
             /*Instillinger til navigation*/
             navigationOptions: {
                 /*Navn*/
-                tabBarLabel:"Home",
+                tabBarLabel:'Home',
                 /*Ikon*/
                 tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name="home" size={24} color="black" />
+                    <AntDesign name="home" size={24} color='white' />
                     )
             },
         },
@@ -243,9 +242,9 @@ const TabNavigator = createBottomTabNavigator(
         Calendar: {
             screen: CalendarView,
             navigationOptions: {
-                tabBarLabel:"Calendar",
+                tabBarLabel:'Shifts',
                 tabBarIcon: ({ tintColor }) => (
-                    <MaterialCommunityIcons name="calendar-month-outline" size={24} color="black" />
+                    <AntDesign name='calendar' size={24} color='white' />
                 )
             },
         },
@@ -254,9 +253,9 @@ const TabNavigator = createBottomTabNavigator(
         Map: {
             screen: MapView,
             navigationOptions: {
-                tabBarLabel:"Map",
+                tabBarLabel:'Map',
                 tabBarIcon: ({ tintColor }) => (
-                    <Entypo name="address" size={24} color="black" />
+                    <Entypo name='address' size={24} color='white' />
                     )
             },
         },
@@ -264,9 +263,9 @@ const TabNavigator = createBottomTabNavigator(
         Documentation: {
             screen: DocumentationView,
             navigationOptions: {
-                tabBarLabel:"Docs",
+                tabBarLabel:'Docs',
                 tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name="exception1" size={24} color="black" />
+                    <AntDesign name='exception1' size={24} color='white' />
                     )
             },
         },
@@ -275,9 +274,9 @@ const TabNavigator = createBottomTabNavigator(
         Settings: {
             screen: SettingsView,
             navigationOptions: {
-                tabBarLabel:"Settings",
+                tabBarLabel:'Settings',
                 tabBarIcon: ({ tintColor }) => (
-                    <Feather name="settings" size={24} color="black" />
+                    <Feather name='settings' size={24} color='white' />
                     )
             },
         },
@@ -292,8 +291,10 @@ const TabNavigator = createBottomTabNavigator(
                 fontSize: 15,
             },
             activeTintColor: '#FF6400',
-            inactiveTintColor: 'black',
-            size:40
+            inactiveTintColor: 'white',
+            activeBackgroundColor: 'black',
+            inactiveBackgroundColor: 'black',
+            size: 50,
         }
     }
 

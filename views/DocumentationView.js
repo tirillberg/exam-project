@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0,
         borderColor: '#47525E',
-        paddingVertical: 15,
+        paddingVertical: 12,
         paddingHorizontal: 120,
         marginTop: 20,
     },
@@ -127,10 +127,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0,
         borderColor: '#47525E',
-        paddingVertical: 15,
+        paddingVertical: 12,
         paddingHorizontal: 110,
-        marginTop: 20,
-        marginBottom: 50,
+        marginTop: 10,
+        marginBottom: 10,
     },
 
     backButton:{
