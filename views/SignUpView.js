@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 10,
+        marginTop: 25,
         width: '90%',
         height: 50,
         marginLeft: 22,

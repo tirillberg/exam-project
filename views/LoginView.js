@@ -7,11 +7,13 @@ import {createAppContainer} from "react-navigation";
 import {AntDesign} from "@expo/vector-icons";
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import MainView from "./MainView";
 import CalendarView from "./CalendarView";
 import DocumentationView from "./DocumentationView";
 import MapView from "./MapView";
 import SettingsView from "./SettingsView";
+import InformationView from "./InformationView";
 
 export default class SignIn extends Component {
 
@@ -55,10 +57,7 @@ export default class SignIn extends Component {
                         source={{uri: 'https://d3tpltn2ezya42.cloudfront.net/media/p/556x200/1489657373/logo-desktop.png'}}
                     />
 
-
                     <Text style={styles.subHeader}>SIGN IN</Text>
-
-
 
                     <TextInput
                         value={this.state.email}
@@ -80,7 +79,6 @@ export default class SignIn extends Component {
                         selectionColor={'#FF6400'}
                     />
 
-
                     <TouchableOpacity
                         style={[styles.orangeButton,]}
                         onPress={this.loginUser} >
@@ -99,7 +97,7 @@ export default class SignIn extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'black',
@@ -208,7 +206,7 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 15,
+        marginTop: 25,
         width: '90%',
         height: 50,
         alignItems: 'center',
@@ -242,9 +240,9 @@ const TabNavigator = createBottomTabNavigator(
         Calendar: {
             screen: CalendarView,
             navigationOptions: {
-                tabBarLabel:'Shifts',
+                tabBarLabel:'schedule',
                 tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name='calendar' size={24} color='white' />
+                    <MaterialIcons name="schedule" size={24} color="white" />
                 )
             },
         },
@@ -261,9 +259,9 @@ const TabNavigator = createBottomTabNavigator(
         },
 
         Documentation: {
-            screen: DocumentationView,
+            screen: InformationView,
             navigationOptions: {
-                tabBarLabel:'Docs',
+                tabBarLabel:'Info',
                 tabBarIcon: ({ tintColor }) => (
                     <AntDesign name='exception1' size={24} color='white' />
                     )

@@ -19,12 +19,12 @@ export default function MainView({navigation}) {
         /*Her har vi et View med klassenavnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-            <Image
+            {/*<Image
                 style={styles.image}
                 source={{uri: 'https://d3tpltn2ezya42.cloudfront.net/media/p/556x200/1489657373/logo-desktop.png'}}
-            />
+            />*/}
 
-            {/*<Text style={styles.subHeader}>APP FOR FRIVILLIGE</Text>*/}
+            <Image style={styles.image} source={require('../assets/BL_horizontal.png')}></Image>
 
             {/*<Text style={styles.text1}>There are {list.length} volunteers registered!</Text>*/}
 
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 10,
+        marginTop: 30,
         width: '90%',
         height: 50,
     },

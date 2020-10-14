@@ -15,8 +15,6 @@ import MapView from "./views/MapView";
 
 const Stack = createStackNavigator();
 
-//export default class App extends React.Component  {
-
 //export default function App() {
 
     //Oprettelse af databasekonfiguration
@@ -51,48 +49,49 @@ export default class App extends React.Component {
                     <Stack.Screen
                         name="/start"
                         component={StartView}
-                        options={{title: 'Start'}}
+                        options={{ headerShown: false }}
                     />
                     <Stack.Screen
                         name="/main"
                         component={MainView}
-                        options={{title: 'Main'}}
+                        options={{ headerShown: false }}
                     />
                     <Stack.Screen
                         name="/settings"
                         component={SettingsView}
-                        options={{title: 'Settings'}}
+                        options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
                         name="/signUp"
                         component={SignUpView}
-                        options={{title: 'Sign Up'}}
+                        options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
                         name="/login"
                         component={LoginView}
-                        options={{title: 'Login'}}
+                        options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
                         name="/documentation"
                         component={DocumentationView}
-                        options={{title: 'Documentation'}}
+                        options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
                         name="/calendar"
                         component={CalendarView}
-                        options={{title: 'Calendar'}}
+                        options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
                         name="/map"
                         component={MapView}
-                        options={{title: 'Map'}}
+                        options={{ headerShown: false }}
                     />
+
                 </Stack.Navigator>
             </NavigationContainer>
         );

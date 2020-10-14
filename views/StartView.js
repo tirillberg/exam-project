@@ -9,10 +9,8 @@ export default function StartView({navigation}) {
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-            <Image
-                style={styles.image}
-                source={{uri: 'https://pbs.twimg.com/profile_images/1283916855/BL_square_400x400.jpg'}}
-            />
+
+            <Image style={styles.image} source={require('../assets/BL_square.jpg')}></Image>
 
             <Text style={styles.header}>VELKOMMEN!</Text>
 
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
     },
 
     image:{
-
+        marginTop: 25,
         width: 150,
         height: 150,
     },
