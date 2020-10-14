@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import firebase from "firebase";
@@ -12,6 +12,7 @@ import LoginView from "./views/LoginView";
 import DocumentationView from "./views/DocumentationView";
 import CalendarView from "./views/CalendarView";
 import MapView from "./views/MapView";
+import InformationView from "./views/InformationView";
 
 const Stack = createStackNavigator();
 
@@ -94,6 +95,7 @@ export default class App extends React.Component {
 
                 </Stack.Navigator>
             </NavigationContainer>
+
         );
 
     }
