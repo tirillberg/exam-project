@@ -9,11 +9,16 @@ export default function InformationView({navigation}) {
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-            <ScrollView contentContainerStyle={styles.styledView}>
+            <ScrollView
+                contentContainerStyle={styles.styledView}
+                //options={{ onScrollEndDrag: true }}
+                //https://reactnative.dev/docs/0.54/scrollview
+                //https://reactnative.dev/docs/0.54/scrollview#onmomentumscrollbegin
+            >
 
             <Text style={styles.header}>INFORMATION</Text>
 
-            <Text style={styles.subHeader}>Status på kommende arrangementer</Text>
+            <Text style={styles.subHeaderPink}>Status på kommende arrangementer</Text>
 
             {/*<ScrollView style={styles.StyledView}>*/}
 
@@ -39,7 +44,7 @@ export default function InformationView({navigation}) {
 
             {/*</ScrollView>*/}
 
-                <Text style={styles.subHeader}>Aldersgrense og vergeordning</Text>
+                <Text style={styles.subHeaderBlue}>Aldersgrense og vergeordning</Text>
 
                 {/*<ScrollView style={styles.StyledView}>*/}
                     <Text style={styles.text1}>
@@ -94,7 +99,7 @@ export default function InformationView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: '#17191F',
         alignItems: 'center',
     },
 
@@ -111,8 +116,18 @@ const styles = StyleSheet.create({
         marginLeft: 70,
     },
 
-    subHeader:{
-        color: '#FF6400',
+    subHeaderBlue:{
+        color: '#25BDAD',
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        marginTop: 15,
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+
+    subHeaderPink:{
+        color: '#F05A89',
         fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 15,
@@ -146,8 +161,8 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
 
-    orangeButton:{
-        backgroundColor: '#FF6400',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '73%',
         height: '7%',
@@ -160,7 +175,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 
-    orangeButtonText: {
+    blueButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 15.5,

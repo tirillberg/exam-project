@@ -14,6 +14,8 @@ import DocumentationView from "./DocumentationView";
 import MapView from "./MapView";
 import SettingsView from "./SettingsView";
 import InformationView from "./InformationView";
+//importerer {auth} for å hente fra FirebaseConfig
+import { auth, fsRef } from './../FirebaseConfig';
 
 export default class SignIn extends Component {
 
@@ -26,17 +28,54 @@ export default class SignIn extends Component {
     loginUser = async () => {
         const { email, password } = this.state;
         console.log('console log error');
-        try {
-            // Here the data is passed to the service and we wait for the result
-            const output =  await firebase.auth().signInWithEmailAndPassword(email, password);
-            console.log(output);
-            this.setState({ isLoggedIn: true });
-        } catch (error) {
-            console.log(error.message);
+
+        //lager referanse til this utenfor så det er mulig å kalle på this.setstate inne i Firebase
+        const oldThis = this;
+        await auth.signInWithEmailAndPassword(email, password).then(
+            //then --> sign in og password går fint = så håndterer den det som står i then.
+            //hvis ikke håndterer den det i catch
+            (data) => {
+                console.log('uid for user:', data.user.uid);
+
+                var volunteerRef = fsRef.collection("volunteers").doc(data.user.uid);
+
+                volunteerRef.get().then(function(doc) {
+                    // sjekker om doc'et eksisterer
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        //dette som gjør at brukeren er logget inn, men det bør endres til hooks!!!
+                        oldThis.setState({isLoggedIn: true});
+                        //setUserInfo(doc.data());
+                        // bare logg inn brukeren her, for her finnes brukeren allerede i databasen
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                        volunteerRef.set({
+                            name: '',
+                            email: email,
+                            age: 0,
+                        }).then(function() {
+                            console.log("Document successfully written!");
+                            oldThis.setState({ isLoggedIn: true });
+                        })
+                            .catch(function(error) {
+                                console.error("Error writing document: ", error);
+                            });
+
+                        oldThis.setState({ isLoggedIn: true });
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                })
+            }
+
+        ).catch((e)=>{
+            console.log(e);
             alert('Wrong username or password')
             this.setState({ isLoggedIn: false });
-        }
+        });
     };
+
     componentDidMount() {
         this.loginUser
     }
@@ -52,10 +91,7 @@ export default class SignIn extends Component {
             return (
                 <View style={styles.container}>
 
-                    <Image
-                        style={styles.image}
-                        source={{uri: 'https://d3tpltn2ezya42.cloudfront.net/media/p/556x200/1489657373/logo-desktop.png'}}
-                    />
+                    <Image style={styles.image} source={require('../assets/image2.png')}></Image>
 
                     <Text style={styles.subHeader}>SIGN IN</Text>
 
@@ -66,7 +102,7 @@ export default class SignIn extends Component {
                         placeholder=' email'
                         placeholderTextColor = 'white'
                         style={styles.textInput}
-                        selectionColor={'#FF6400'}
+                        selectionColor={'#F05A89'}
                     />
 
                     <TextInput
@@ -74,15 +110,16 @@ export default class SignIn extends Component {
                         onChangeText={(password) => this.setState({ password })}
                         placeholder={' password'}
                         secureTextEntry={true}
+                        color = 'white'
                         placeholderTextColor = 'white'
                         style={styles.textInput}
-                        selectionColor={'#FF6400'}
+                        selectionColor={'#F05A89'}
                     />
 
                     <TouchableOpacity
-                        style={[styles.orangeButton,]}
+                        style={[styles.pinkButton,]}
                         onPress={this.loginUser} >
-                        <Text style={styles.orangeButtonText}>Sign in</Text>
+                        <Text style={styles.blueButtonText}>Sign in</Text>
                     </TouchableOpacity>
 
 
@@ -100,7 +137,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#2E223A',
         //alignItems: 'center',
     },
 
@@ -121,7 +158,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: '#FF6400',
+        color: '#25BDAD',
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 50,
@@ -143,8 +180,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
 
-    orangeButton:{
-        backgroundColor: '#FF6400',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '75%',
         height: '7.5%',
@@ -157,7 +194,7 @@ const styles = StyleSheet.create({
         marginBottom: 300,
     },
 
-    orangeButtonText: {
+    blueButtonText: {
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: 62,
@@ -166,18 +203,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 
-    whiteButton:{
-        backgroundColor: '#FFFFFF',
+    pinkButton:{
+        backgroundColor: '#F05A89',
         color: '#47525E',
-        width: '100%',
-        height: '10%',
-        elevation: 8,
+        width: '75%',
+        height: '7.5%',
         borderRadius: 10,
-        borderWidth: 0.5,
-        borderColor: '#47525E',
-        paddingVertical: 20,
-        paddingHorizontal: 83,
-        marginTop: 20,
+        borderWidth: 0,
+        borderColor: 'white',
+        paddingVertical: 15,
+        paddingHorizontal: 65,
+        marginTop: 25,
+        marginBottom: 300,
     },
 
     backButton:{
@@ -206,9 +243,9 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 25,
+        marginTop: 60,
         width: '90%',
-        height: 50,
+        height: 100,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -288,10 +325,10 @@ const TabNavigator = createBottomTabNavigator(
             labelStyle: {
                 fontSize: 15,
             },
-            activeTintColor: '#FF6400',
+            activeTintColor: '#F05A89',
             inactiveTintColor: 'white',
-            activeBackgroundColor: 'black',
-            inactiveBackgroundColor: 'black',
+            activeBackgroundColor: '#17191F',
+            inactiveBackgroundColor: '#17191F',
             size: 50,
         }
     }

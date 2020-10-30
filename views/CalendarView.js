@@ -14,15 +14,15 @@ export default function CalendarView({navigation}) {
             <Text style={styles.subHeader}>nothing to see here</Text>
 
             <TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 onPress={() => navigation.push('/main')}>
-                <Text style={styles.orangeButtonText}>button</Text>
+                <Text style={styles.blueButtonText}>button</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-                style={styles.whiteButton}
+                style={styles.blueButton}
                 onPress={() => navigation.goBack()}>
-                <Text style={styles.orangeButtonText}>button</Text>
+                <Text style={styles.blueButtonText}>button</Text>
             </TouchableOpacity>
 
         </View>
@@ -33,7 +33,7 @@ export default function CalendarView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: '#17191F',
         alignItems: 'center',
     },
 
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: '#FF6400',
+        color: '#F05A89',
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5,
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
-    orangeButton:{
-        backgroundColor: '#FF6400',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '70%',
         height: '7%',
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 
-    orangeButtonText: {
+    blueButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 15.5,

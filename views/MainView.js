@@ -5,7 +5,7 @@ import {StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react
 export default function MainView({navigation}) {
 
     //Use state hook for list and for adding new volunteers to list
-    const [list, settings] = useState([
+/*    const [list, settings] = useState([
        {
             id: 1,
             name: 'Name: '+'Volunteer 1',
@@ -13,7 +13,7 @@ export default function MainView({navigation}) {
             email: 'Email: '+'volunteer@email.com',
         },
 
-    ]);
+    ]);*/
 
     return (
         /*Her har vi et View med klassenavnet container og der er en enkel render View*/
@@ -24,15 +24,15 @@ export default function MainView({navigation}) {
                 source={{uri: 'https://d3tpltn2ezya42.cloudfront.net/media/p/556x200/1489657373/logo-desktop.png'}}
             />*/}
 
-            <Image style={styles.image} source={require('../assets/BL_horizontal.png')}></Image>
+            <Image style={styles.image} source={require('../assets/image2.png')}></Image>
 
             {/*<Text style={styles.text1}>There are {list.length} volunteers registered!</Text>*/}
 
             {/*Check if goal list is empty or not*/}
-            {list.length > 0 ?
+{/*            {list.length > 0 ?
                 (
                     <View style={styles.list}>
-                        {/*Iterating through list, return view for each goal item*/}
+                        Iterating through list, return view for each goal item
                         {list.map(volunteer=>{
                             return (
                                 <TouchableOpacity
@@ -78,11 +78,11 @@ export default function MainView({navigation}) {
                     </View>
                 )
 
-            }
+            }*/}
 
             <Text style={styles.subHeader}>LATEST NEWS!</Text>
 
-            <ScrollView style={styles.StyledView}>
+            <ScrollView style={styles.styledView}>
                 <Text style={styles.text1}>
                     Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
                     Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering - Oppdatering -
@@ -94,7 +94,7 @@ export default function MainView({navigation}) {
             </ScrollView>
 
             <TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 //navigate sier jeg ønsker å gå til den skjermen,
                 // -->men hvis man er på den skjermen så trenger man ikke gå til den skjermen
                 //push --> legger siden oppå
@@ -108,16 +108,17 @@ export default function MainView({navigation}) {
             </TouchableOpacity>
 
             {/*<TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 onPress={() => navigation.push('/calendar',)}>
                 <Text>Calendar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 onPress={() => navigation.push('/map',)}>
                 <Text>Map</Text>
             </TouchableOpacity>*/}
+
 
         </View>
     );
@@ -127,7 +128,7 @@ export default function MainView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: '#17191F',
         alignItems: 'center',
     },
 
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: '#FF6400',
+        color: '#F05A89',
         fontSize: 30,
         fontWeight: 'bold',
         marginTop: 0,
@@ -189,8 +190,8 @@ const styles = StyleSheet.create({
     },
 
 
-    orangeButton:{
-        backgroundColor: '#FF6400',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '60%',
         height: '7%',
@@ -207,12 +208,13 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 30,
+        marginTop: 40,
         width: '90%',
-        height: 50,
+        height: 100,
+        marginBottom: 40,
     },
 
-    StyledView:{
+    styledView:{
         height: 50,
     }
 

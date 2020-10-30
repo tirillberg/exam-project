@@ -30,7 +30,7 @@ export default function EditGoalView({route, navigation}) {
                 placeholder = {name}
                 onChangeText={(text) => this.setState({text})}
                 placeholderTextColor = 'white'
-                selectionColor={'orange'}
+                selectionColor={'#F05A89'}
             />
 
 
@@ -39,7 +39,7 @@ export default function EditGoalView({route, navigation}) {
                 placeholder= {password}
                 onChangeText={(text) => this.setState({text})}
                 placeholderTextColor = 'white'
-                selectionColor={'orange'}
+                selectionColor={'#F05A89'}
             />
 
             <TextInput
@@ -47,14 +47,14 @@ export default function EditGoalView({route, navigation}) {
                 placeholder= {email}
                 onChangeText={(text) => this.setState({text})}
                 placeholderTextColor = 'white'
-                selectionColor={'orange'}
+                selectionColor={'#F05A89'}
             />
 
 
             <TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 onPress={() => navigation.goBack()}>
-                <Text style={styles.orangeButtonText}>Save changes</Text>
+                <Text style={styles.blueButtonText}>Save changes</Text>
             </TouchableOpacity>
 
         </View>
@@ -65,7 +65,7 @@ export default function EditGoalView({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 0,
-        backgroundColor: 'black',
+        backgroundColor: '#17191F',
         alignItems: 'center',
     },
 
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: '#FF6400',
+        color: '#25BDAD',
         fontSize: 40,
         fontWeight: 'bold',
         marginBottom: 30,
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
 
-    orangeButton:{
-        backgroundColor: '#FF6400',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '75%',
         height: '7.5%',
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         marginBottom: 150,
     },
 
-    orangeButtonText: {
+    blueButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
     },
