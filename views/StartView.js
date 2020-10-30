@@ -4,35 +4,25 @@ import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 
 export default function StartView({navigation}) {
 
-
     return (
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-            <Image
-                style={styles.image}
-                source={{uri: 'https://pbs.twimg.com/profile_images/1283916855/BL_square_400x400.jpg'}}
-            />
 
-            <Text style={styles.header}>APP FOR FRIVILLIGE</Text>
+            <Image style={styles.image} source={require('../assets/image1.png')}></Image>
+
+            <Text style={styles.header}>VELKOMMEN!</Text>
 
             <TouchableOpacity
-                style={styles.orangeButton}
-                //navigerer videre til MainView
-                onPress={() => navigation.navigate('/main')}>
-                <Text>Connect with Facebook</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.whiteButton}
+                style={styles.blueButton}
                 onPress={() => navigation.navigate('/login')}>
-                <Text  style={styles.whiteButtonText} >Sign in</Text>
+                <Text  style={styles.blueButtonText} >Sign in</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.signUpButton}
                 onPress={() => navigation.navigate('/signUp')}>
-                <Text style={styles.signUpText}>Don't have an account yet? Sign up here!</Text>
+                <Text style={styles.signUpText}>Haven't received login information? Tap here!</Text>
             </TouchableOpacity>
 
         </View>
@@ -42,9 +32,11 @@ export default function StartView({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
-        backgroundColor: 'black',
+        flex: 1,
+        backgroundColor: '#17191F',
         alignItems: 'center',
+        width: '100%',
+        height: '100%'
     },
 
     component:{
@@ -52,7 +44,7 @@ const styles = StyleSheet.create({
     },
 
     header:{
-        color: 'orange',
+        color: 'white',
         fontSize: 50,
         fontWeight: 'bold',
         marginTop: 35,
@@ -60,7 +52,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: 'white',
+        color: '#25BDAD',
         fontSize: 25,
         fontWeight: 'bold',
         marginTop: 20,
@@ -79,8 +71,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
 
-    orangeButton:{
-        backgroundColor: 'orange',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '75%',
         height: '10%',
@@ -95,8 +87,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    whiteButton:{
-        backgroundColor: '#FFFFFF',
+    pinkButton:{
+        backgroundColor: '#F05A89',
         width: '75%',
         height: '10%',
         elevation: 8,
@@ -110,10 +102,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    whiteButtonText:{
+    blueButtonText:{
         fontWeight:'bold',
         fontSize: 17,
-        color: '#47525E',
+        color: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -131,13 +123,13 @@ const styles = StyleSheet.create({
 
     signUpText: {
         fontWeight:'bold',
-        color: 'white'
+        color: '#F05A89'
     },
 
     image:{
-
-        width: 150,
-        height: 150,
+        marginTop: 50,
+        width: 300,
+        height: 300,
     },
 
 });

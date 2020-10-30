@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 
 export default function EditGoalView({route, navigation}) {
 
-    const {id, name, username, password, email, birthday} = route.params;
+    const {id, name, password, email} = route.params;
 
     return (
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
@@ -19,40 +19,42 @@ export default function EditGoalView({route, navigation}) {
 
             <Text style={styles.subHeader}>YOUR SETTINGS</Text>
 
-            <TextInput
-                style={styles.textInput}
-                placeholder = {name}
-                onChangeText={(text) => this.setState({text})}
+            <Image
+                style={styles.image}
+                source={{uri: 'https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png'}}
+                //source={{uri: 'https://i.stack.imgur.com/l60Hf.png'}}
             />
 
             <TextInput
                 style={styles.textInput}
-                placeholder = {username}
+                placeholder = {name}
                 onChangeText={(text) => this.setState({text})}
+                placeholderTextColor = 'white'
+                selectionColor={'#F05A89'}
             />
+
 
             <TextInput
                 style={styles.textInput}
                 placeholder= {password}
                 onChangeText={(text) => this.setState({text})}
+                placeholderTextColor = 'white'
+                selectionColor={'#F05A89'}
             />
 
             <TextInput
                 style={styles.textInput}
                 placeholder= {email}
                 onChangeText={(text) => this.setState({text})}
+                placeholderTextColor = 'white'
+                selectionColor={'#F05A89'}
             />
 
-            <TextInput
-                style={styles.textInput}
-                placeholder= {birthday}
-                onChangeText={(text) => this.setState({text})}
-            />
 
             <TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 onPress={() => navigation.goBack()}>
-                <Text style={styles.orangeButtonText}>Save changes</Text>
+                <Text style={styles.blueButtonText}>Save changes</Text>
             </TouchableOpacity>
 
         </View>
@@ -63,7 +65,7 @@ export default function EditGoalView({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 0,
-        backgroundColor: 'black',
+        backgroundColor: '#17191F',
         alignItems: 'center',
     },
 
@@ -80,10 +82,11 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: 'orange',
+        color: '#25BDAD',
         fontSize: 40,
         fontWeight: 'bold',
-        marginBottom: 50,
+        marginBottom: 30,
+        marginTop: 20,
     },
 
     text:{
@@ -98,8 +101,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
 
-    orangeButton:{
-        backgroundColor: 'orange',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '75%',
         height: '7.5%',
@@ -110,10 +113,10 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         paddingHorizontal: 108,
         marginTop: 70,
-        marginBottom: 100,
+        marginBottom: 150,
     },
 
-    orangeButtonText: {
+    blueButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -151,6 +154,14 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         marginTop: 10,
         marginBottom: 10,
+        color: 'white',
+    },
+
+    image:{
+        marginTop: 5,
+        marginBottom: 20,
+        width: 105,
+        height: 105,
     },
 
 

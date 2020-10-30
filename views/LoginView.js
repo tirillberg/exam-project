@@ -1,100 +1,171 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState, Component} from 'react';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
+import * as firebase from 'firebase';
+import {createBottomTabNavigator} from "react-navigation-tabs";
+import {createAppContainer} from "react-navigation";
+import {AntDesign} from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import MainView from "./MainView";
+import CalendarView from "./CalendarView";
+import DocumentationView from "./DocumentationView";
+import MapView from "./MapView";
+import SettingsView from "./SettingsView";
+import InformationView from "./InformationView";
+//importerer {auth} for å hente fra FirebaseConfig
+import { auth, fsRef } from './../FirebaseConfig';
 
-export default function LoginView({route, navigation}) {
+export default class SignIn extends Component {
 
-    //const {list, addNewVolunteer} = route.params;
+    state = {
+        email: '',
+        password: '',
+        isLoggedIn: false
+    };
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    loginUser = async () => {
+        const { email, password } = this.state;
+        console.log('console log error');
+
+        //lager referanse til this utenfor så det er mulig å kalle på this.setstate inne i Firebase
+        const oldThis = this;
+        await auth.signInWithEmailAndPassword(email, password).then(
+            //then --> sign in og password går fint = så håndterer den det som står i then.
+            //hvis ikke håndterer den det i catch
+            (data) => {
+                console.log('uid for user:', data.user.uid);
+
+                var volunteerRef = fsRef.collection("volunteers").doc(data.user.uid);
+
+                volunteerRef.get().then(function(doc) {
+                    // sjekker om doc'et eksisterer
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        //dette som gjør at brukeren er logget inn, men det bør endres til hooks!!!
+                        oldThis.setState({isLoggedIn: true});
+                        //setUserInfo(doc.data());
+                        // bare logg inn brukeren her, for her finnes brukeren allerede i databasen
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                        volunteerRef.set({
+                            name: '',
+                            email: email,
+                            age: 0,
+                        }).then(function() {
+                            console.log("Document successfully written!");
+                            oldThis.setState({ isLoggedIn: true });
+                        })
+                            .catch(function(error) {
+                                console.error("Error writing document: ", error);
+                            });
+
+                        oldThis.setState({ isLoggedIn: true });
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                })
+            }
+
+        ).catch((e)=>{
+            console.log(e);
+            alert('Wrong username or password')
+            this.setState({ isLoggedIn: false });
+        });
+    };
+
+    componentDidMount() {
+        this.loginUser
+    }
 
 
-    /*function onSubmit(){
+    render(){
+        if(this.state.isLoggedIn){
+            return(
+                <AppBottomNav/>
+            )
+        }else{
 
-        //etablerer en helt ny liste, inni listen sier jeg at "...list" skal starte på den måten
-        //legger til et ekstra element etter det
+            return (
+                <View style={styles.container}>
 
-        //bruker hooks (addNewGoal hook) for å legge inn et ny element
-        addNewVolunteer([...list,
-            {
+                    <Image style={styles.image} source={require('../assets/image2.png')}></Image>
 
-                username: username,
-                password: password,
+                    <Text style={styles.subHeader}>SIGN IN</Text>
 
-            },
+                    <TextInput
+                        value={this.state.email}
+                        keyboardType = 'email-address'
+                        onChangeText={(email) => this.setState({ email })}
+                        placeholder=' email'
+                        placeholderTextColor = 'white'
+                        style={styles.textInput}
+                        selectionColor={'#F05A89'}
+                    />
 
-        ])
+                    <TextInput
+                        value={this.state.password}
+                        onChangeText={(password) => this.setState({ password })}
+                        placeholder={' password'}
+                        secureTextEntry={true}
+                        color = 'white'
+                        placeholderTextColor = 'white'
+                        style={styles.textInput}
+                        selectionColor={'#F05A89'}
+                    />
 
-        navigation.goBack();
+                    <TouchableOpacity
+                        style={[styles.pinkButton,]}
+                        onPress={this.loginUser} >
+                        <Text style={styles.blueButtonText}>Sign in</Text>
+                    </TouchableOpacity>
 
-        //console.log("submit");
-    };*/
 
-    //console.log(name);
+                </View>
+            );
+        }
 
-    return (
-        /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
-        <View style={styles.container}>
 
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}>
-                <Text>Back</Text>
-            </TouchableOpacity>
 
-            <Text style={styles.subHeader}>WELCOME BACK!</Text>
-
-            <Text style={styles.header}>SIGN IN</Text>
-
-            <TextInput
-                style={styles.textInput}
-                placeholder=" USERNAME"
-                onChangeText={(text) => setUsername(text)}
-            />
-
-            <TextInput
-                style={styles.textInput}
-                placeholder=" PASSWORD"
-                onChangeText={(text) => setPassword(text)}
-            />
-
-            <TouchableOpacity
-                style={styles.orangeButton}
-                //onPress={onSubmit}>
-                onPress={() => navigation.push('/main')}>
-                <Text style={styles.orangeButtonText}>Let's go!</Text>
-            </TouchableOpacity>
-
-        </View>
-    );
+    };
 }
-
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
-        backgroundColor: 'black',
+        flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#2E223A',
+        //alignItems: 'center',
     },
 
     component:{
         paddingTop:10
     },
 
+    error: {
+        color: 'red',
+    },
+
     header:{
         color: 'white',
-        fontSize: 50,
+        fontSize: 70,
         fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 90,
+        marginTop: 100,
+        marginBottom: 100,
     },
 
     subHeader:{
-        color: 'orange',
-        fontSize: 35,
+        color: '#25BDAD',
+        fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 5,
+        marginBottom: 50,
+        marginLeft: 22,
+        marginTop: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     text:{
@@ -109,39 +180,41 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
 
-    orangeButton:{
-        backgroundColor: 'orange',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
-        width: '73%',
-        height: '10%',
-        elevation: 8,
+        width: '75%',
+        height: '7.5%',
         borderRadius: 10,
         borderWidth: 0,
-        borderColor: '#47525E',
-        paddingVertical: 25,
-        paddingHorizontal: 120,
-        marginTop: 15,
-        marginBottom: 205,
+        borderColor: 'white',
+        paddingVertical: 15,
+        paddingHorizontal: 65,
+        marginTop: 25,
+        marginBottom: 300,
     },
 
-    orangeButtonText: {
-        justifyContent: 'center',
+    blueButtonText: {
         alignItems: 'center',
-        fontSize: 15.5,
+        justifyContent: 'center',
+        marginLeft: 62,
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 16,
     },
 
-    whiteButton:{
-        backgroundColor: '#FFFFFF',
+    pinkButton:{
+        backgroundColor: '#F05A89',
         color: '#47525E',
-        width: '100%',
-        height: '10%',
-        elevation: 8,
+        width: '75%',
+        height: '7.5%',
         borderRadius: 10,
-        borderWidth: 0.5,
-        borderColor: '#47525E',
-        paddingVertical: 20,
-        paddingHorizontal: 83,
-        marginTop: 20,
+        borderWidth: 0,
+        borderColor: 'white',
+        paddingVertical: 15,
+        paddingHorizontal: 65,
+        marginTop: 25,
+        marginBottom: 300,
     },
 
     backButton:{
@@ -157,14 +230,111 @@ const styles = StyleSheet.create({
 
     textInput: {
         height: 40,
-        width:300,
+        width:'70%',
         fontSize: 18,
         borderRadius: 0,
         borderWidth: 0.5,
-        borderColor: '#8190A5',
+        borderColor: 'white',
         marginTop: 10,
         marginBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
     },
 
+    image:{
+        marginTop: 60,
+        width: '90%',
+        height: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+
+
 });
+
+
+// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen. Det er altså menyen som ligger nede i systemet, og skal
+// hjelpe med å navigere.
+const TabNavigator = createBottomTabNavigator(
+    {
+        /*Tilføj routes*/
+        Main: {
+            /*Hvilket view skal loades*/
+            screen: MainView,
+            /*Instillinger til navigation*/
+            navigationOptions: {
+                /*Navn*/
+                tabBarLabel:'Home',
+                /*Ikon*/
+                tabBarIcon: ({ tintColor }) => (
+                    <AntDesign name="home" size={24} color='white' />
+                    )
+            },
+        },
+
+        Calendar: {
+            screen: CalendarView,
+            navigationOptions: {
+                tabBarLabel:'schedule',
+                tabBarIcon: ({ tintColor }) => (
+                    <MaterialIcons name="schedule" size={24} color="white" />
+                )
+            },
+        },
+
+
+        Map: {
+            screen: MapView,
+            navigationOptions: {
+                tabBarLabel:'Map',
+                tabBarIcon: ({ tintColor }) => (
+                    <Entypo name='address' size={24} color='white' />
+                    )
+            },
+        },
+
+        Documentation: {
+            screen: InformationView,
+            navigationOptions: {
+                tabBarLabel:'Info',
+                tabBarIcon: ({ tintColor }) => (
+                    <AntDesign name='exception1' size={24} color='white' />
+                    )
+            },
+        },
+
+        /*Navn på Route*/
+        Settings: {
+            screen: SettingsView,
+            navigationOptions: {
+                tabBarLabel:'Settings',
+                tabBarIcon: ({ tintColor }) => (
+                    <Feather name='settings' size={24} color='white' />
+                    )
+            },
+        },
+
+
+    },
+    /*Generelle label indstillinger*/
+    {
+        tabBarOptions: {
+            showIcon:true,
+            labelStyle: {
+                fontSize: 15,
+            },
+            activeTintColor: '#F05A89',
+            inactiveTintColor: 'white',
+            activeBackgroundColor: '#17191F',
+            inactiveBackgroundColor: '#17191F',
+            size: 50,
+        }
+    }
+
+)
+
+
+const AppBottomNav = createAppContainer(TabNavigator);
 

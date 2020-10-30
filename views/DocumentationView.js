@@ -51,15 +51,15 @@ export default function DocumentationView({navigation}) {
             </ScrollView>
 
             <TouchableOpacity
-                style={styles.orangeButton}
+                style={styles.blueButton}
                 onPress={() => navigation.push('/main')}>
-                <Text style={styles.orangeButtonText}>I agree</Text>
+                <Text style={styles.blueButtonText}>I agree</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.whiteButton}
                 onPress={() => navigation.goBack()}>
-                <Text style={styles.orangeButtonText}>I disagree</Text>
+                <Text style={styles.blueButtonText}>I disagree</Text>
             </TouchableOpacity>
 
         </View>
@@ -70,7 +70,7 @@ export default function DocumentationView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 0,
-        backgroundColor: 'black',
+        backgroundColor: '#17191F',
         alignItems: 'center',
     },
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
 
     subHeader:{
-        color: 'orange',
+        color: '#25BDAD',
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5,
@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
-    orangeButton:{
-        backgroundColor: 'orange',
+    blueButton:{
+        backgroundColor: '#25BDAD',
         color: '#47525E',
         width: '73%',
         height: '7%',
@@ -107,12 +107,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0,
         borderColor: '#47525E',
-        paddingVertical: 15,
+        paddingVertical: 12,
         paddingHorizontal: 120,
         marginTop: 20,
     },
 
-    orangeButtonText: {
+    blueButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 15.5,
@@ -127,10 +127,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0,
         borderColor: '#47525E',
-        paddingVertical: 15,
+        paddingVertical: 12,
         paddingHorizontal: 110,
-        marginTop: 20,
-        marginBottom: 50,
+        marginTop: 10,
+        marginBottom: 10,
     },
 
     backButton:{
