@@ -17,8 +17,8 @@ Når du skal pushe det du har laget til oss andre, så skal du lage en branch me
 
 (Hvis du vet det er gjort store endringer i master, så pull’er du fra master først. Det gjør du på denne måten)
 1. git stash (det betyr at du legger vekk det du har gjort, men du lagrer det i en stack)
-2. git pull
-3. git stash pop
+2. git pull (puller fra master så du har siste versjon av master)
+3. git stash pop (merger dine endringer med siste versjon av master)
 
 Så skal du opprette branch
 1. git checkout -b "<branch name>"
