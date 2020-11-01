@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 
-export default function EditGoalView({route, navigation}) {
+export default function SettingsView({route, navigation}) {
 
-    const {id, name, password, email} = route.params;
+    const {name, password, email, age} = route.params;
 
     return (
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
@@ -17,44 +17,52 @@ export default function EditGoalView({route, navigation}) {
                 <Text>Back</Text>
             </TouchableOpacity>
 
-            <Text style={styles.subHeader}>YOUR SETTINGS</Text>
-
-            <Image
-                style={styles.image}
-                source={{uri: 'https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png'}}
-                //source={{uri: 'https://i.stack.imgur.com/l60Hf.png'}}
-            />
+            <Text style={styles.subHeader}>PROFILE</Text>
 
             <TextInput
                 style={styles.textInput}
                 placeholder = {name}
                 onChangeText={(text) => this.setState({text})}
-                placeholderTextColor = 'white'
                 selectionColor={'#F05A89'}
+                placeholderTextColor = 'white'
             />
 
+            <TextInput
+                style={styles.textInput}
+                placeholder = {email}
+                onChangeText={(text) => this.setState({text})}
+                selectionColor={'#F05A89'}
+                placeholderTextColor = 'white'
+            />
+
+            <TextInput
+                style={styles.textInput}
+                placeholder= {age}
+                onChangeText={(text) => this.setState({text})}
+                selectionColor={'#F05A89'}
+                placeholderTextColor = 'white'
+            />
 
             <TextInput
                 style={styles.textInput}
                 placeholder= {password}
                 onChangeText={(text) => this.setState({text})}
-                placeholderTextColor = 'white'
                 selectionColor={'#F05A89'}
-            />
-
-            <TextInput
-                style={styles.textInput}
-                placeholder= {email}
-                onChangeText={(text) => this.setState({text})}
+                secureTextEntry={true}
                 placeholderTextColor = 'white'
-                selectionColor={'#F05A89'}
             />
-
 
             <TouchableOpacity
                 style={styles.blueButton}
                 onPress={() => navigation.goBack()}>
-                <Text style={styles.blueButtonText}>Save changes</Text>
+                <Text>Save changes</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.backButton}
+                //.goBack -> man går ned en stack i bunken, altså tilbake et view
+                onPress={() => navigation.goBack()}>
+                <Text>Back</Text>
             </TouchableOpacity>
 
         </View>
