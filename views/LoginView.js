@@ -10,7 +10,7 @@ import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import MainView from "./MainView";
 import CalendarView from "./CalendarView";
-import DocumentationView from "./DocumentationView";
+import ConsentView from "./ConsentView";
 import MapView from "./MapView";
 import SettingsView from "./SettingsView";
 import InformationView from "./InformationView";
@@ -37,12 +37,16 @@ export default class SignIn extends Component {
             (data) => {
                 console.log('uid for user:', data.user.uid);
 
-                var volunteerRef = fsRef.collection("volunteers").doc(data.user.uid);
+                //går gjennom collection i Firebase og sjekker den collection med navn "volunteers"
+                //deretter går den gjennom document og ser på uid
+                const volunteerRef = fsRef.collection("volunteers").doc(data.user.uid);
 
                 volunteerRef.get().then(function(doc) {
                     // sjekker om doc'et eksisterer
                     if (doc.exists) {
                         console.log("Document data:", doc.data());
+                        //hvis doc'et matcher et doc i databasen så logges brukeren inn
+
                         //dette som gjør at brukeren er logget inn, men det bør endres til hooks!!!
                         oldThis.setState({isLoggedIn: true});
                         //setUserInfo(doc.data());
@@ -50,12 +54,18 @@ export default class SignIn extends Component {
                     } else {
                         // doc.data() will be undefined in this case
                         console.log("No such document!");
+                        //hvis doc'et ikke finnes så logges man på men så blir doc'et tilføyet til databasen
+                        //men satt til å ikke ha noe navn, email eller alder
                         volunteerRef.set({
                             name: '',
                             email: email,
                             age: 0,
+                            //hvis ovenstående går fint så kommer "then"
+                            //Nye doc'et blir skrevet suksessfult
                         }).then(function() {
                             console.log("Document successfully written!");
+
+                            //dette skal endres til Hooks
                             oldThis.setState({ isLoggedIn: true });
                         })
                             .catch(function(error) {
@@ -84,6 +94,7 @@ export default class SignIn extends Component {
     render(){
         if(this.state.isLoggedIn){
             return(
+                //<ConsentView/>
                 <AppBottomNav/>
             )
         }else{
@@ -118,10 +129,9 @@ export default class SignIn extends Component {
 
                     <TouchableOpacity
                         style={[styles.pinkButton,]}
-                        onPress={this.loginUser} >
+                        onPress={this.loginUser}>
                         <Text style={styles.blueButtonText}>Sign in</Text>
                     </TouchableOpacity>
-
 
                 </View>
             );
@@ -255,8 +265,9 @@ const styles = StyleSheet.create({
 });
 
 
-// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen. Det er altså menyen som ligger nede i systemet, og skal
-// hjelpe med å navigere.
+// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen.
+// Det er altså menyen som ligger nede i systemet, og skal hjelpe med å navigere.
+
 const TabNavigator = createBottomTabNavigator(
     {
         /*Tilføj routes*/

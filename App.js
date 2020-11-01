@@ -8,9 +8,9 @@ import MainView from "./views/MainView";
 import SettingsView from "./views/SettingsView";
 import SignUpView from "./views/SignUpView";
 import LoginView from "./views/LoginView";
-import DocumentationView from "./views/DocumentationView";
 import CalendarView from "./views/CalendarView";
 import MapView from "./views/MapView";
+import ConsentView from "./views/ConsentView";
 
 const Stack = createStackNavigator();
 
@@ -51,7 +51,7 @@ export default class App extends React.Component {
 
                     <Stack.Screen
                         name="/documentation"
-                        component={DocumentationView}
+                        component={ConsentView}
                         options={{ headerShown: false }}
                     />
 
@@ -66,6 +66,7 @@ export default class App extends React.Component {
                         component={MapView}
                         options={{ headerShown: false }}
                     />
+
 
                 </Stack.Navigator>
             </NavigationContainer>
