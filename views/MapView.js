@@ -116,8 +116,6 @@ const styles = StyleSheet.create({
 
 
 
-
-
 /*
 import * as React from 'react';
 import { Text, View, StyleSheet, Button, SafeAreaView } from 'react-native';
@@ -143,6 +141,7 @@ export default class MapView extends React.Component {
     };
 
     getLocationPermission = async () => {
+        //lager et asynkront kall gjennom denne permission som er hentet
         const { status } = await Permissions.askAsync(Permissions.LOCATION);
         this.setState({ hasLocationPermission: status });
     };
@@ -201,8 +200,7 @@ export default class MapView extends React.Component {
     };
 
     render() {
-        const {userMarkerCoordinates, selectedCoordinate, selectedAddress,
-        } = this.state;
+        const {userMarkerCoordinates, selectedCoordinate, selectedAddress} = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 {this.renderCurrentLocation()}

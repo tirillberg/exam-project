@@ -11,6 +11,7 @@ import LoginView from "./views/LoginView";
 import CalendarView from "./views/CalendarView";
 import MapView from "./views/MapView";
 import ConsentView from "./views/ConsentView";
+import EditSettingsView from "./views/EditSettingsView";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +68,11 @@ export default class App extends React.Component {
                         options={{ headerShown: false }}
                     />
 
+                    <Stack.Screen
+                        name="/editSettings"
+                        component={EditSettingsView}
+                        options={{ headerShown: false }}
+                    />
 
                 </Stack.Navigator>
             </NavigationContainer>

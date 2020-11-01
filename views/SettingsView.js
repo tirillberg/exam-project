@@ -1,13 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
+/*import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
+import firebase from "firebase";
 
 export default function SettingsView({route, navigation}) {
 
-    const {name, password, email, age} = route.params;
+    //const {name, password, email, age} = route.params;
+    const [name, password, email, age] = useState(null);
 
     return (
-        /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
+        /!*Her har vi et et View med klasse navnet container og der er en enkel render View*!/
         <View style={styles.container}>
 
             <TouchableOpacity
@@ -172,6 +174,99 @@ const styles = StyleSheet.create({
         height: 105,
     },
 
+
+});*/
+
+
+import * as React from 'react';
+import { View, Text, Platform, FlatList, StyleSheet, Button, Alert } from 'react-native';
+import firebase from 'firebase';
+import { auth, fsRef } from './../FirebaseConfig';
+
+export default class SettingsView extends React.Component {
+    state = {volunteer: null};
+
+    componentDidMount() {
+        // Vi udlæser ID fra navgation parametre og loader den frivillige når komponenten starter
+        const uid = this.props.navigation.getParam('uid');
+        this.loadVolunteer(uid);
+    }
+
+    loadVolunteer = uid => {
+        firebase
+            .database()
+            // ID fra funktionens argument sættes ind i stien vi læser fra
+            //.volunteerRef('/Volunteers/'+uid)
+            /*const volunteerRef = fsRef.collection("volunteers").doc(data.user.uid);
+            volunteerRef.get().then(function(doc) {*/
+
+            .ref('/Volunteers/'+uid)
+            .on('value', data => {
+                this.setState({ volunteer: data.val() });
+            });
+    };
+
+
+
+    handleEdit = () => {
+        // Vi navigerer videre til EditVolunteer skærmen og sender ID med
+        const { navigation } = this.props;
+        const uid = navigation.getParam('uid');
+        navigation.navigate('EditVolunteer', { uid });
+    };
+
+    render() {
+        const {volunteer} = this.state;
+        if (!volunteer) {
+            return <Text>No data</Text>;
+        }
+        return (
+            <View style={styles.container}>
+                <Button title="Edit" onPress={this.handleEdit} />
+
+                <View style={styles.row}>
+                    <Text style={styles.label}>Name</Text>
+                    <Text style={styles.value}>{volunteer.name}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Email</Text>
+                    <Text style={styles.value}>{volunteer.email}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Password</Text>
+                    <Text style={styles.value}>{volunteer.password}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Age</Text>
+                    <Text style={styles.value}>{volunteer.age}</Text>
+                </View>
+            </View>
+        );
+    }
+}
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        //backgroundColor: '#17191F',
+    },
+
+    row: {
+        margin: 5,
+        padding: 5,
+        flexDirection: 'row',
+    },
+
+    label: {
+        width: 100,
+        fontWeight: 'bold'
+    },
+
+    value: {
+        flex: 1
+    },
 
 });
 
