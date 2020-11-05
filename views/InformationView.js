@@ -9,14 +9,9 @@ export default function InformationView({navigation}) {
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-            <ScrollView
-                contentContainerStyle={styles.styledView}
-                //options={{ onScrollEndDrag: true }}
-                //https://reactnative.dev/docs/0.54/scrollview
-                //https://reactnative.dev/docs/0.54/scrollview#onmomentumscrollbegin
-            >
+            <ScrollView style={styles.scrollView}>
 
-            <Text style={styles.header}>INFORMATION</Text>
+                <Text style={styles.header}>INFORMATION</Text>
 
             <Text style={styles.subHeaderPink}>Status på kommende arrangementer</Text>
 
@@ -123,7 +118,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         marginTop: 15,
         alignItems: 'center',
-        marginLeft: 10,
+        //marginLeft: 10,
     },
 
     subHeaderPink:{
@@ -133,14 +128,13 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         marginTop: 15,
         alignItems: 'center',
-        marginLeft: 10,
+        //marginLeft: 10,
     },
 
     text1:{
         color: 'white',
         marginBottom: 10,
-        marginLeft: 10,
-        marginRight: 10,
+        marginRight: 15,
     },
 
     text2:{
@@ -149,16 +143,14 @@ const styles = StyleSheet.create({
         fontSize: 17,
         marginTop: 20,
         marginBottom: 10,
-        marginLeft: 10,
-        marginRight: 10,
+        marginRight: 15,
     },
 
     text3:{
         color: 'white',
         fontWeight: 'bold',
         marginBottom: 10,
-        marginLeft: 10,
-        marginRight: 10,
+        marginRight: 15,
     },
 
     blueButton:{
@@ -206,8 +198,10 @@ const styles = StyleSheet.create({
         marginBottom: -35,
     },
 
-    styledView:{
+    scrollView:{
         height:380,
+        marginLeft: 10,
+        marginRight: 5,
     }
 
 });

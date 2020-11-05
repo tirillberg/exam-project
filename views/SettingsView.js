@@ -1,94 +1,134 @@
-/*import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
-import firebase from "firebase";
+import React, {useState, useEffect} from 'react';
+import {View, Image, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import { auth, fsRef } from './../FirebaseConfig';
 
-export default function SettingsView({route, navigation}) {
+export default function SettingsView ({navigation}) {
 
-    //const {name, password, email, age} = route.params;
-    const [name, password, email, age] = useState(null);
+    const [volunteer, setVolunteer] = useState({});
 
-    return (
-        /!*Her har vi et et View med klasse navnet container og der er en enkel render View*!/
-        <View style={styles.container}>
-
-            <TouchableOpacity
-                style={styles.backButton}
-                //.goBack -> man går ned en stack i bunken, altså tilbake et view
-                onPress={() => navigation.goBack()}>
-                <Text>Back</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.subHeader}>PROFILE</Text>
-
-            <TextInput
-                style={styles.textInput}
-                placeholder = {name}
-                onChangeText={(text) => this.setState({text})}
-                selectionColor={'#F05A89'}
-                placeholderTextColor = 'white'
-            />
-
-            <TextInput
-                style={styles.textInput}
-                placeholder = {email}
-                onChangeText={(text) => this.setState({text})}
-                selectionColor={'#F05A89'}
-                placeholderTextColor = 'white'
-            />
-
-            <TextInput
-                style={styles.textInput}
-                placeholder= {age}
-                onChangeText={(text) => this.setState({text})}
-                selectionColor={'#F05A89'}
-                placeholderTextColor = 'white'
-            />
-
-            <TextInput
-                style={styles.textInput}
-                placeholder= {password}
-                onChangeText={(text) => this.setState({text})}
-                selectionColor={'#F05A89'}
-                secureTextEntry={true}
-                placeholderTextColor = 'white'
-            />
-
-            <TouchableOpacity
-                style={styles.blueButton}
-                onPress={() => navigation.goBack()}>
-                <Text>Save changes</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.backButton}
-                //.goBack -> man går ned en stack i bunken, altså tilbake et view
-                onPress={() => navigation.goBack()}>
-                <Text>Back</Text>
-            </TouchableOpacity>
-
-        </View>
+    //useEffect er her en componentDidMount
+    useEffect(
+        () => {
+            //setter volunteer
+            loadVolunteer();
+        },
+        []
     );
+
+    function loadVolunteer() {
+        //kaller firestore
+        fsRef
+            //tar collection som heter volunteers
+            .collection('volunteers')
+            //tar dokumentet til uid'en
+            .doc('72vFoHaL29f7TdcUvJZvnZhvMRy2')
+            //henter dokumentet med get()
+            .get()
+            //setter dataen til this state
+            .then((doc)=>{
+            setVolunteer(doc.data());
+        })
+            .catch((error)=>{
+                console.log('error getting the user', error);
+                }
+            )
+    };
+
+    function handleEdit() {
+        // Vi navigerer videre til EditVolunteer skærmen og sender ID med
+        //navigation.goBack();
+        navigation.navigate('/editSettings');
+    }
+
+        if (!volunteer) {
+            return <Text style ={styles.subHeader}>No data</Text>;
+        }
+        return (
+            <View style={styles.container}>
+
+                <Text style={styles.header}>YOUR PROFILE</Text>
+
+                <Image
+                    style={styles.image}
+                    source={{uri: 'https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'}}
+                />
+
+                {/*<Image
+                    style={styles.image}
+                    source={{uri: 'https://lh3.googleusercontent.com/proxy/EP-IC31Lg4XEV8RjMFCmpeyE07vp-' +
+                            'FBN5ZIJafhDoSaVdkz1R_qH7seIHxXHgP570MZZkhgyBBMsZTla6vNmTFBKT5bmcXAkGnBgqzdVcCktOh7Nex4'}}
+                />*/}
+
+                <View style={styles.row}>
+                    <Text style={styles.label}>Name</Text>
+                    <Text style={styles.value}>{volunteer.name}</Text>
+                </View>
+
+                <View style={styles.row}>
+                    <Text style={styles.label}>Email</Text>
+                    <Text style={styles.value}>{volunteer.email}</Text>
+                </View>
+
+                <View style={styles.row}>
+                    <Text style={styles.label}>Password</Text>
+                    <Text style={styles.value}>{volunteer.password}</Text>
+                </View>
+
+                <View style={styles.row}>
+                    <Text style={styles.label}>Age</Text>
+                    <Text style={styles.value}>{volunteer.age}</Text>
+                </View>
+
+                <TouchableOpacity
+                    style={styles.pinkButton}
+                    onPress={handleEdit}>
+                    {/*onPress={() => navigation.navigate('/editSettings')}>*/}
+                    <Text style={styles.pinkButtonText}>Edit your profile</Text>
+                </TouchableOpacity>
+            </View>
+        );
 }
 
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
+        //justifyContent: 'flex-start',
         backgroundColor: '#17191F',
         alignItems: 'center',
+        //justifyContent: 'center',
     },
 
-    component:{
-        paddingTop:10
+    row: {
+        margin: 5,
+        padding: 5,
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: 'white',
+        width: 300,
+    },
+
+    label: {
+        width: 100,
+        fontWeight: 'bold',
+        color: '#25BDAD',
+        fontSize: 17,
+        marginLeft: 5,
+    },
+
+    value: {
+        flex: 1,
+        color: 'white',
+        fontSize: 17,
+        marginLeft: 35,
     },
 
     header:{
         color: 'white',
-        fontSize: 70,
+        fontSize: 50,
         fontWeight: 'bold',
-        marginTop: 100,
-        marginBottom: 100,
+        marginTop: 60,
+        marginBottom: 60,
     },
 
     subHeader:{
@@ -111,24 +151,26 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
 
-    blueButton:{
-        backgroundColor: '#25BDAD',
+    pinkButton:{
+        backgroundColor: '#F05A89',
         color: '#47525E',
-        width: '75%',
+        width: '60%',
         height: '7.5%',
         elevation: 8,
         borderRadius: 10,
         borderWidth: 0,
         borderColor: '#47525E',
         paddingVertical: 15,
-        paddingHorizontal: 108,
-        marginTop: 70,
+        paddingHorizontal: 68,
+        marginTop: 45,
         marginBottom: 150,
     },
 
-    blueButtonText: {
+    pinkButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
+        fontWeight: 'bold',
+        color: 'white',
     },
 
     whiteButton:{
@@ -168,104 +210,13 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 5,
-        marginBottom: 20,
-        width: 105,
-        height: 105,
-    },
-
-
-});*/
-
-
-import * as React from 'react';
-import { View, Text, Platform, FlatList, StyleSheet, Button, Alert } from 'react-native';
-import firebase from 'firebase';
-import { auth, fsRef } from './../FirebaseConfig';
-
-export default class SettingsView extends React.Component {
-    state = {volunteer: null};
-
-    componentDidMount() {
-        // Vi udlæser ID fra navgation parametre og loader den frivillige når komponenten starter
-        const uid = this.props.navigation.getParam('uid');
-        this.loadVolunteer(uid);
-    }
-
-    loadVolunteer = uid => {
-        firebase
-            .database()
-            // ID fra funktionens argument sættes ind i stien vi læser fra
-            //.volunteerRef('/Volunteers/'+uid)
-            /*const volunteerRef = fsRef.collection("volunteers").doc(data.user.uid);
-            volunteerRef.get().then(function(doc) {*/
-
-            .ref('/Volunteers/'+uid)
-            .on('value', data => {
-                this.setState({ volunteer: data.val() });
-            });
-    };
-
-
-
-    handleEdit = () => {
-        // Vi navigerer videre til EditVolunteer skærmen og sender ID med
-        const { navigation } = this.props;
-        const uid = navigation.getParam('uid');
-        navigation.navigate('EditVolunteer', { uid });
-    };
-
-    render() {
-        const {volunteer} = this.state;
-        if (!volunteer) {
-            return <Text>No data</Text>;
-        }
-        return (
-            <View style={styles.container}>
-                <Button title="Edit" onPress={this.handleEdit} />
-
-                <View style={styles.row}>
-                    <Text style={styles.label}>Name</Text>
-                    <Text style={styles.value}>{volunteer.name}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Email</Text>
-                    <Text style={styles.value}>{volunteer.email}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Password</Text>
-                    <Text style={styles.value}>{volunteer.password}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Age</Text>
-                    <Text style={styles.value}>{volunteer.age}</Text>
-                </View>
-            </View>
-        );
-    }
-}
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        //backgroundColor: '#17191F',
-    },
-
-    row: {
-        margin: 5,
-        padding: 5,
-        flexDirection: 'row',
-    },
-
-    label: {
-        width: 100,
-        fontWeight: 'bold'
-    },
-
-    value: {
-        flex: 1
+        //marginTop: 5,
+        marginBottom: 40,
+        width: 115,
+        height: 115,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 60,
     },
 
 });

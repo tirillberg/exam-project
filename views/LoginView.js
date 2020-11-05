@@ -1,13 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
-import * as firebase from 'firebase';
 import {createBottomTabNavigator} from "react-navigation-tabs";
 import {createAppContainer} from "react-navigation";
 import {AntDesign} from "@expo/vector-icons";
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import MainView from "./MainView";
 import CalendarView from "./CalendarView";
 import ConsentView from "./ConsentView";
@@ -104,7 +103,7 @@ export default class SignIn extends Component {
 
                     <Image style={styles.image} source={require('../assets/image2.png')}></Image>
 
-                    <Text style={styles.subHeader}>SIGN IN</Text>
+                    <Text style={styles.header}>SIGN IN</Text>
 
                     <TextInput
                         value={this.state.email}
@@ -142,13 +141,98 @@ export default class SignIn extends Component {
     };
 }
 
+
+// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen.
+// Det er altså menyen som ligger nede i systemet, og skal hjelpe med å navigere.
+
+const TabNavigator = createBottomTabNavigator(
+    {
+        /*Tilføj routes*/
+        Main: {
+            /*Hvilket view skal loades*/
+            screen: MainView,
+            /*Instillinger til navigation*/
+            navigationOptions: {
+                /*Navn*/
+                tabBarLabel:'Home',
+                /*Ikon*/
+                tabBarIcon: ({ tintColor }) => (
+                    <AntDesign name="home" size={24} color='white' />
+                    )
+            },
+        },
+
+        Calendar: {
+            screen: CalendarView,
+            navigationOptions: {
+                tabBarLabel:'Schedule',
+                tabBarIcon: ({ tintColor }) => (
+                    <MaterialIcons name="schedule" size={24} color="white" />
+                )
+            },
+        },
+
+
+        Map: {
+            screen: MapView,
+            navigationOptions: {
+                tabBarLabel:'Map',
+                tabBarIcon: ({ tintColor }) => (
+                    <Entypo name='address' size={24} color='white' />
+                    )
+            },
+        },
+
+        Documentation: {
+            screen: InformationView,
+            navigationOptions: {
+                tabBarLabel:'Info',
+                tabBarIcon: ({ tintColor }) => (
+                    <AntDesign name='exception1' size={24} color='white' />
+                    )
+            },
+        },
+
+        /*Navn på Route*/
+        Settings: {
+            screen: SettingsView,
+            navigationOptions: {
+                tabBarLabel:'Profile',
+                tabBarIcon: ({ tintColor }) => (
+                    /*<Feather name='settings' size={24} color='white' />*/
+                    <AntDesign name="user" size={24} color="white" />
+                    /*<FontAwesome5 name="user" size={24} color="white" />*/
+                    )
+            },
+        },
+
+
+    },
+    /*Generelle label indstillinger*/
+    {
+        tabBarOptions: {
+            showIcon:true,
+            labelStyle: {
+                fontSize: 15,
+            },
+            activeTintColor: '#F05A89',
+            inactiveTintColor: 'white',
+            activeBackgroundColor: '#17191F',
+            inactiveBackgroundColor: '#17191F',
+            size: 50,
+        }
+    }
+)
+
+const AppBottomNav = createAppContainer(TabNavigator);
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#2E223A',
-        //alignItems: 'center',
     },
 
     component:{
@@ -161,10 +245,12 @@ const styles = StyleSheet.create({
 
     header:{
         color: 'white',
-        fontSize: 70,
+        fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 100,
-        marginBottom: 100,
+        marginBottom: 50,
+        marginTop: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     subHeader:{
@@ -172,7 +258,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 50,
-        marginLeft: 22,
+        //marginLeft: 22,
         marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center',
@@ -216,13 +302,13 @@ const styles = StyleSheet.create({
     pinkButton:{
         backgroundColor: '#F05A89',
         color: '#47525E',
-        width: '75%',
+        width: '60%',
         height: '7.5%',
         borderRadius: 10,
         borderWidth: 0,
         borderColor: 'white',
         paddingVertical: 15,
-        paddingHorizontal: 65,
+        paddingHorizontal: 35,
         marginTop: 25,
         marginBottom: 300,
     },
@@ -253,99 +339,11 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 60,
+        marginTop: 75,
         width: '90%',
         height: 100,
         alignItems: 'center',
         justifyContent: 'center',
     },
 
-
-
 });
-
-
-// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen.
-// Det er altså menyen som ligger nede i systemet, og skal hjelpe med å navigere.
-
-const TabNavigator = createBottomTabNavigator(
-    {
-        /*Tilføj routes*/
-        Main: {
-            /*Hvilket view skal loades*/
-            screen: MainView,
-            /*Instillinger til navigation*/
-            navigationOptions: {
-                /*Navn*/
-                tabBarLabel:'Home',
-                /*Ikon*/
-                tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name="home" size={24} color='white' />
-                    )
-            },
-        },
-
-        Calendar: {
-            screen: CalendarView,
-            navigationOptions: {
-                tabBarLabel:'schedule',
-                tabBarIcon: ({ tintColor }) => (
-                    <MaterialIcons name="schedule" size={24} color="white" />
-                )
-            },
-        },
-
-
-        Map: {
-            screen: MapView,
-            navigationOptions: {
-                tabBarLabel:'Map',
-                tabBarIcon: ({ tintColor }) => (
-                    <Entypo name='address' size={24} color='white' />
-                    )
-            },
-        },
-
-        Documentation: {
-            screen: InformationView,
-            navigationOptions: {
-                tabBarLabel:'Info',
-                tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name='exception1' size={24} color='white' />
-                    )
-            },
-        },
-
-        /*Navn på Route*/
-        Settings: {
-            screen: SettingsView,
-            navigationOptions: {
-                tabBarLabel:'Settings',
-                tabBarIcon: ({ tintColor }) => (
-                    <Feather name='settings' size={24} color='white' />
-                    )
-            },
-        },
-
-
-    },
-    /*Generelle label indstillinger*/
-    {
-        tabBarOptions: {
-            showIcon:true,
-            labelStyle: {
-                fontSize: 15,
-            },
-            activeTintColor: '#F05A89',
-            inactiveTintColor: 'white',
-            activeBackgroundColor: '#17191F',
-            inactiveBackgroundColor: '#17191F',
-            size: 50,
-        }
-    }
-
-)
-
-
-const AppBottomNav = createAppContainer(TabNavigator);
-

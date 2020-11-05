@@ -4,7 +4,6 @@ import firebase from "firebase";
 
 export default class SignUpView extends React.Component {
 
-
     //Definerer forskjellige state-variabler - de kan endre seg
     state = {
         //name: '',
@@ -234,5 +233,3 @@ const styles = StyleSheet.create({
     },
 
 });
-
-

@@ -8,7 +8,6 @@ export default function StartView({navigation}) {
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-
             <Image style={styles.image} source={require('../assets/image1.png')}></Image>
 
             <Text style={styles.header}>VELKOMMEN!</Text>
@@ -16,7 +15,7 @@ export default function StartView({navigation}) {
             <TouchableOpacity
                 style={styles.blueButton}
                 onPress={() => navigation.navigate('/login')}>
-                <Text  style={styles.blueButtonText} >Sign in</Text>
+                <Text  style={styles.blueButtonText}>Sign in</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

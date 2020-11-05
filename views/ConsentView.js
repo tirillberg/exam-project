@@ -4,16 +4,15 @@ import {StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native
 
 export default function ConsentView({navigation}) {
 
-
         return (
             /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
             <View style={styles.container}>
 
                 <Text style={styles.header}>...ALMOST DONE</Text>
 
-                <Text style={styles.subHeader}>Just a few documents to sign first</Text>
+                <Text style={styles.subHeader}>Read through our terms and conditions</Text>
 
-                <ScrollView style={styles.StyledView}>
+                <ScrollView style={styles.styledView}>
                     <Text style={styles.text1}>Hvad er Lorem Ipsum?
                         Lorem Ipsum er ganske enkelt fyldtekst fra print- og typografiindustrien. Lorem Ipsum har
                         været standard fyldtekst siden 1500-tallet, hvor en ukendt trykker sammensatte en tilfældig
@@ -139,7 +138,7 @@ export default function ConsentView({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         backgroundColor: '#17191F',
         alignItems: 'center',
     },
@@ -153,14 +152,14 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         marginTop: 20,
-        marginBottom: 20,
+        marginBottom: 15,
     },
 
     subHeader:{
-        color: '#25BDAD',
+        color: '#F05A89',
         fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 5,
+        marginBottom: 10,
         alignItems: 'center',
     },
 
@@ -214,8 +213,10 @@ const styles = StyleSheet.create({
     },
 
 
-    StyledView:{
+    styledView:{
         height:380,
+        marginLeft: 15,
+        marginRight: 15,
     }
 
 });
