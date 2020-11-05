@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { Component } from 'react'
-import {StyleSheet, Text, ScrollView, View, Button} from 'react-native';
+import React from 'react'
+import {StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import StartView from "./views/StartView";
@@ -11,69 +10,77 @@ import LoginView from "./views/LoginView";
 import CalendarView from "./views/CalendarView";
 import MapView from "./views/MapView";
 import ConsentView from "./views/ConsentView";
+import EditSettingsView from "./views/EditSettingsView";
 
 const Stack = createStackNavigator();
 
-export default class App extends React.Component {
+export default function App () {
 
-    render() {
+    //render() {
         //oppretter stack navigator som holder styr på navigasjon. Denne delen er ytterste og første del av stacken
         return (
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="/start">
+                <Stack.Navigator initialRouteName='/start'>
                     <Stack.Screen
-                        name="/start"
+                        name='/start'
                         component={StartView}
                         options={{ headerShown: false }}
                     />
+
                     <Stack.Screen
-                        name="/main"
+                        name='/main'
                         component={MainView}
                         options={{ headerShown: false }}
                     />
+
                     <Stack.Screen
-                        name="/settings"
+                        name='/settings'
                         component={SettingsView}
                         options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
-                        name="/signUp"
+                        name='/signUp'
                         component={SignUpView}
                         options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
-                        name="/login"
+                        name='/login'
                         component={LoginView}
                         options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
-                        name="/documentation"
+                        name='/consent'
                         component={ConsentView}
                         options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
-                        name="/calendar"
+                        name='/calendar'
                         component={CalendarView}
                         options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
-                        name="/map"
+                        name='/map'
                         component={MapView}
                         options={{ headerShown: false }}
                     />
 
+                    <Stack.Screen
+                        name='/editSettings'
+                        component={EditSettingsView}
+                        options={{ headerShown: false }}
+                    />
 
                 </Stack.Navigator>
             </NavigationContainer>
 
         );
 
-    }
+    //}
 }
 
 const styles = StyleSheet.create({
