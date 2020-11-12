@@ -24,6 +24,12 @@ export default function StartView({navigation}) {
                 <Text style={styles.signUpText}>Haven't received login information? Tap here!</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+                style={styles.signUpButton1}
+                onPress={() => navigation.navigate('/login')}>
+                <Text style={styles.signUpText}>Forgot your password?</Text>
+            </TouchableOpacity>
+
         </View>
     );
 }
@@ -114,8 +120,19 @@ const styles = StyleSheet.create({
         height: '10%',
         elevation: 8,
         marginTop: 20,
-        marginBottom: 85,
+        //marginBottom: 10,
         fontWeight: 'bold',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    signUpButton1:{
+        width: '100%',
+        height: '10%',
+        elevation: 8,
+        marginTop: 20,
+        marginBottom: 10,
+        //fontWeight: 'bold',
         justifyContent: 'center',
         alignItems: 'center',
     },

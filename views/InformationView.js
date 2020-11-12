@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Image} from 'react-native';
 
 export default function InformationView({navigation}) {
 
@@ -82,6 +82,14 @@ export default function InformationView({navigation}) {
                         Har du spørsmål om vergeordningen, send e-post til: post@bergenlive.no
                     </Text>
 
+                <Text style={styles.subHeaderPink}>Kart over festivalområdet</Text>
+
+                <Text style={styles.text3}>
+                    Finn ut hvor du skal ha neste post:
+                </Text>
+
+                <Image style={styles.image} source={require('../assets/map-2019.jpg')}></Image>
+
                 {/*</ScrollView>*/}
 
             </ScrollView>
@@ -115,7 +123,7 @@ const styles = StyleSheet.create({
         color: '#25BDAD',
         fontSize: 25,
         fontWeight: 'bold',
-        marginBottom: 15,
+        marginBottom: 10,
         marginTop: 15,
         alignItems: 'center',
         //marginLeft: 10,
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
         color: '#F05A89',
         fontSize: 25,
         fontWeight: 'bold',
-        marginBottom: 15,
+        marginBottom: 10,
         marginTop: 15,
         alignItems: 'center',
         //marginLeft: 10,
@@ -202,7 +210,14 @@ const styles = StyleSheet.create({
         height:380,
         marginLeft: 10,
         marginRight: 5,
-    }
+    },
+
+    image:{
+        //marginTop: 10,
+        marginBottom: 10,
+        width: 390,
+        height: 250,
+    },
 
 });
 

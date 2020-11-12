@@ -1,46 +1,74 @@
 import React, {useState, useEffect} from 'react';
-import {View, Image, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, Image, TouchableOpacity, Text, StyleSheet, TextInput, Alert} from 'react-native';
 import { auth, fsRef } from './../FirebaseConfig';
+import {useUserStore} from '../store/UserStore';
 
 export default function SettingsView ({navigation}) {
 
-    const [volunteer, setVolunteer] = useState({});
-
-    //useEffect er her en componentDidMount
-    useEffect(
-        () => {
-            //setter volunteer
-            loadVolunteer();
-        },
-        []
+    //Her brukes en global hook, altså at vi setter brukeren, så kan vi bruke denne brukeren hvor som helst i appen/programmet,
+    //og ikke kun i dette View.
+    const {user, setUser} = useUserStore(
+        state => ({user: state.user, setUser: state.setUser })
     );
 
-    function loadVolunteer() {
-        //kaller firestore
-        fsRef
-            //tar collection som heter volunteers
-            .collection('volunteers')
-            //tar dokumentet til uid'en
-            .doc('72vFoHaL29f7TdcUvJZvnZhvMRy2')
-            //henter dokumentet med get()
-            .get()
-            //setter dataen til this state
-            .then((doc)=>{
-            setVolunteer(doc.data());
-        })
-            .catch((error)=>{
-                console.log('error getting the user', error);
-                }
-            )
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [age, setAge] = useState('');
+
+    useEffect(()=>{
+        setName(user.name);
+        setEmail(user.email);
+        setAge(user.age);
+    },[]);
+
+
+    const updateUser = (newUser) => {
+        try {
+            fsRef
+                //tar collection som heter volunteers
+                .collection('volunteers')
+                //tar dokumentet til uid'en
+                .doc(user.id)
+                //henter dokumentet med get()
+                .update({
+                    name:newUser.name,
+                    email:newUser.email,
+                    age: newUser.age
+                })
+                //setter dataen til this state
+                .then((doc)=>{
+                    setUser(newUser);
+                })
+                .catch((error)=>{
+                        console.log('error updating the user', error);
+                    }
+                )
+
+        } catch (error) {
+            Alert.alert(`Error: ${error.message}`);
+        }
     };
 
     function handleEdit() {
-        // Vi navigerer videre til EditVolunteer skærmen og sender ID med
-        //navigation.goBack();
-        navigation.navigate('/editSettings');
+        if (isEditing){
+            //setUser globalt og i firebase
+            const newUser = {
+                name:name,
+                email:email,
+                age:age,
+                id:user.id,
+                consent:user.consent,
+            }
+            updateUser(newUser);
+        }
+
+        //"!" = motsatte
+        setIsEditing(!isEditing);
     }
 
-        if (!volunteer) {
+        if (!user) {
             return <Text style ={styles.subHeader}>No data</Text>;
         }
         return (
@@ -59,31 +87,62 @@ export default function SettingsView ({navigation}) {
                             'FBN5ZIJafhDoSaVdkz1R_qH7seIHxXHgP570MZZkhgyBBMsZTla6vNmTFBKT5bmcXAkGnBgqzdVcCktOh7Nex4'}}
                 />*/}
 
-                <View style={styles.row}>
-                    <Text style={styles.label}>Name</Text>
-                    <Text style={styles.value}>{volunteer.name}</Text>
-                </View>
+                {/*? - questions mark means one thing or another - isEditing is true then the below is showing. */}
+                {isEditing?
+                    <View>
+                        <TextInput
+                        value={name}
+                        //keyboardType = 'email-address'
+                        onChangeText={(string) => setName(string)}
+                        placeholder=' name'
+                        placeholderTextColor = 'white'
+                        style={styles.textInput}
+                        selectionColor={'#F05A89'}
+                        />
+                        <TextInput
+                        value={email}
+                        //keyboardType = 'name'
+                        onChangeText={(string) => setEmail(string)}
+                        placeholder=' email'
+                        placeholderTextColor = 'white'
+                        style={styles.textInput}
+                        selectionColor={'#F05A89'}
+                        />
+                        <TextInput
+                        value={age}
+                        //keyboardType = 'name'
+                        onChangeText={(string) => setAge(string)}
+                        placeholder=' age'
+                        placeholderTextColor = 'white'
+                        style={styles.textInput}
+                        selectionColor={'#F05A89'}
+                        />
+                    </View>
+                    :
+                    //Not editing, then the below is showing
+                    <View>
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Name</Text>
+                        <Text style={styles.value}>{user.name}</Text>
+                    </View>
 
-                <View style={styles.row}>
-                    <Text style={styles.label}>Email</Text>
-                    <Text style={styles.value}>{volunteer.email}</Text>
-                </View>
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Email</Text>
+                        <Text style={styles.value}>{user.email}</Text>
+                    </View>
 
-                <View style={styles.row}>
-                    <Text style={styles.label}>Password</Text>
-                    <Text style={styles.value}>{volunteer.password}</Text>
-                </View>
-
-                <View style={styles.row}>
-                    <Text style={styles.label}>Age</Text>
-                    <Text style={styles.value}>{volunteer.age}</Text>
-                </View>
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Age</Text>
+                        <Text style={styles.value}>{user.age}</Text>
+                    </View>
+                    </View>
+                }
 
                 <TouchableOpacity
                     style={styles.pinkButton}
                     onPress={handleEdit}>
-                    {/*onPress={() => navigation.navigate('/editSettings')}>*/}
-                    <Text style={styles.pinkButtonText}>Edit your profile</Text>
+                    {/*Knapp: isEditing er true så vises "Save changes", mens hvis den er false så vises "Edit your profile"*/}
+                    <Text style={styles.pinkButtonText}>{isEditing?'Save changes':'Edit your profile'}</Text>
                 </TouchableOpacity>
             </View>
         );

@@ -1,87 +1,85 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, Component} from 'react';
 import {StyleSheet, Text, View, Modal, ScrollView, TouchableOpacity, TextInput} from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
+import WeeklyCalendar from "react-native-weekly-calendar";
 
-//export default class CalendarView extends Component {
-export default function CalendarView ({navigation}, props) {
+export default function CalendarView() {
 
-    /*constructor(props) {
-        //super(props);
-        this.state = {
-            selectedStartDate: null,
-        };
-
-        this.onDateChange = this.onDateChange.bind(this);
-    }*/
-
-    /*onDateChange(date) {
-        this.setState({
-            selectedStartDate: date,
-        });
-    }*/
-
-    const [selectedStartDate, setSelectedStartDate] = useState({});
-
-    const onDateChange = date => {
-        setSelectedStartDate(selectedStartDate);
-    }
-
-    //render() {
-    //const { selectedStartDate } = this.state;
-
-    //Denne tror jeg må endres...
-    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+    const events = [
+        { 'start': '2020-11-02 09:00:00', 'duration': '04:00:00', 'note': 'Bar - Marcus and Sophia' },
+        { 'start': '2020-11-02 09:00:00', 'duration': '04:00:00', 'note': 'Entrance - Henri and Lewis' },
+        { 'start': '2020-11-02 09:00:00', 'duration': '04:00:00', 'note': 'Restaurant - Martin and Anna' },
+        { 'start': '2020-11-02 09:00:00', 'duration': '04:00:00', 'note': 'Front stage security - Levi and Eve' },
+        { 'start': '2020-11-03 09:00:00', 'duration': '04:00:00', 'note': 'Bar - Marcus and Sophia' },
+        { 'start': '2020-11-03 09:00:00', 'duration': '04:00:00', 'note': 'Entrance - Marcus and Sophia' },
+        { 'start': '2020-11-03 09:00:00', 'duration': '04:00:00', 'note': 'Restaurant - Henri and Lewis' },
+        { 'start': '2020-11-03 09:00:00', 'duration': '04:00:00', 'note': 'Front stage security - Levi and Eve' },
+        { 'start': '2020-11-04 09:00:00', 'duration': '04:00:00', 'note': 'Bar - Henri and Lewis' },
+        { 'start': '2020-11-04 09:00:00', 'duration': '04:00:00', 'note': 'Entrance - Marcus and Sophia' },
+        { 'start': '2020-11-04 09:00:00', 'duration': '04:00:00', 'note': 'Restaurant - Martin and Anna' },
+        { 'start': '2020-11-04 09:00:00', 'duration': '04:00:00', 'note': 'Front stage security - Levi and Eve' },
+        { 'start': '2020-11-26 09:30:00', 'duration': '01:00:00', 'note': 'Schedule 1' },
+        { 'start': '2020-11-26 11:00:00', 'duration': '02:00:00', 'note': 'Schedule 2' },
+        { 'start': '2020-11-26 15:00:00', 'duration': '01:30:00', 'note': 'Schedule 3' },
+        { 'start': '2020-11-26 18:00:00', 'duration': '02:00:00', 'note': 'Schedule 4' },
+        { 'start': '2020-11-26 22:00:00', 'duration': '01:00:00', 'note': 'Schedule 5' }
+    ]
 
     return (
         <View style={styles.container}>
+            <WeeklyCalendar
+                style={styles.calendar}
 
-            <Text style={styles.header}>SCHEDULE</Text>
+                events={events}
 
-            <Text style={styles.subHeader}>Check here for when you are working</Text>
+                themeColor={'#F05A89'}
 
+                startWeekday={1}
 
-            <CalendarPicker
-                //onDateChange={this.onDateChange}
-                onDateChange={onDateChange}
-                startFromMonday={true}
-                //allowRangeSelection={true}
-                /*previousTitleStyle={{
-                    color: '#25BDAD'
-                }}*/
-                selectedDayTextColor={'white'}
-                selectedDayColor={'#F05A89'}
-                todayBackgroundColor={'grey'}
-                dayLabelsWrapper={{
-                    color: 'white'
+                durationContainer={{
+                    color: 'orange'
                 }}
-                textStyle={{
-                    //fontFamily: 'Cochin',
-                    color: 'white',
+
+                durationDot={'orange'}
+                eventNote={{
+                    color: 'orange'
                 }}
+
+                titleStyle={{
+                    color: '#17191F',
+                    textTransform: 'uppercase',
+                }}
+
+                dayLabelStyle={{
+                    color: '#17191F'
+                }}
+
+                noteLabelStyle={{
+                    color: 'green'
+                }}
+
             />
-
-            <View>
-                {/*<Text style={styles.text1}>SELECTED DATE:{' '+ startDate }</Text>*/}
-
-                <Text style={styles.text1}>*Here it is supposed to say who is working this day*</Text>
-
-                <Text style={styles.text2}>Do you have questions regarding your shifts or whats to swap with anyone?
-                    Contact Simon at +4799999999</Text>
-            </View>
-
         </View>
     );
-    //}
 }
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //backgroundColor: 'white',
-        backgroundColor: '#17191F',
+        backgroundColor: 'white',
+        //backgroundColor: '#17191F',
         //backgroundColor: '#2E223A',
         alignItems: 'center',
+    },
+
+    calendar:{
+        marginTop: 20,
+        //backgroundColor: '#17191F',
+        //backgroundColor: '#2E223A',
+        backgroundColor: 'white',
+        flex: 1,
+        height: 900,
     },
 
     component:{
