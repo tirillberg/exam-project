@@ -15,21 +15,27 @@ import SettingsView from "./SettingsView";
 import InformationView from "./InformationView";
 //importerer {auth} for å hente fra FirebaseConfig
 import { auth, fsRef } from './../FirebaseConfig';
+import {useUserStore} from '../store/UserStore';
 
-export default class SignIn extends Component {
+export default function SignIn ({navigation}) {
 
-    state = {
-        email: '',
-        password: '',
-        isLoggedIn: false
-    };
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    loginUser = async () => {
-        const { email, password } = this.state;
-        console.log('console log error');
+    //Her brukes en global hook, altså at vi setter brukeren, så kan vi bruke denne brukeren hvor som helst i appen/programmet,
+    //og ikke kun i dette View.
+    const {user, setUser} = useUserStore(
+        state => ({user: state.user, setUser: state.setUser })
+    );
 
-        //lager referanse til this utenfor så det er mulig å kalle på this.setstate inne i Firebase
-        const oldThis = this;
+    //hver gang vi endrer user-objektet, så printes dette ut:
+    useEffect(()=>{
+        console.log('Global user: ' + user);
+    },[user]);
+
+    const loginUser = async () => {
+
         await auth.signInWithEmailAndPassword(email, password).then(
             //then --> sign in og password går fint = så håndterer den det som står i then.
             //hvis ikke håndterer den det i catch
@@ -47,31 +53,34 @@ export default class SignIn extends Component {
                         //hvis doc'et matcher et doc i databasen så logges brukeren inn
 
                         //dette som gjør at brukeren er logget inn, men det bør endres til hooks!!!
-                        oldThis.setState({isLoggedIn: true});
-                        //setUserInfo(doc.data());
+                        setIsLoggedIn(true);
+                        //her setter vi user globalt
+                        setUser(doc.data());
                         // bare logg inn brukeren her, for her finnes brukeren allerede i databasen
                     } else {
+                        const newUser = {
+                            name: '',
+                            email: email,
+                            age: 0,
+                            id: data.user.uid,
+                            consent: false,
+                            //hvis ovenstående går fint så kommer "then"
+                            //Nye doc'et blir skrevet suksessfult
+                        };
                         // doc.data() will be undefined in this case
                         console.log("No such document!");
                         //hvis doc'et ikke finnes så logges man på men så blir doc'et tilføyet til databasen
                         //men satt til å ikke ha noe navn, email eller alder
-                        volunteerRef.set({
-                            name: '',
-                            email: email,
-                            age: 0,
-                            //hvis ovenstående går fint så kommer "then"
-                            //Nye doc'et blir skrevet suksessfult
-                        }).then(function() {
+                        volunteerRef.set(newUser).then(function() {
                             console.log("Document successfully written!");
 
-                            //dette skal endres til Hooks
-                            oldThis.setState({ isLoggedIn: true });
+                            setIsLoggedIn(true);
+                            //her setter vi user globalt
+                            setUser(newUser);
                         })
                             .catch(function(error) {
                                 console.error("Error writing document: ", error);
                             });
-
-                        oldThis.setState({ isLoggedIn: true });
                     }
                 }).catch(function(error) {
                     console.log("Error getting document:", error);
@@ -81,17 +90,13 @@ export default class SignIn extends Component {
         ).catch((e)=>{
             console.log(e);
             alert('Wrong username or password')
-            this.setState({ isLoggedIn: false });
+            setIsLoggedIn(false);
         });
     };
 
-    componentDidMount() {
-        this.loginUser
-    }
 
 
-    render(){
-        if(this.state.isLoggedIn){
+        if(isLoggedIn){
             return(
                 //<ConsentView/>
                 <AppBottomNav/>
@@ -106,9 +111,9 @@ export default class SignIn extends Component {
                     <Text style={styles.header}>SIGN IN</Text>
 
                     <TextInput
-                        value={this.state.email}
-                        keyboardType = 'email-address'
-                        onChangeText={(email) => this.setState({ email })}
+                        value={email}
+                        //keyboardType = 'email-address'
+                        onChangeText={(string) => setEmail(string)}
                         placeholder=' email'
                         placeholderTextColor = 'white'
                         style={styles.textInput}
@@ -116,8 +121,8 @@ export default class SignIn extends Component {
                     />
 
                     <TextInput
-                        value={this.state.password}
-                        onChangeText={(password) => this.setState({ password })}
+                        value={password}
+                        onChangeText={(string) => setPassword(string)}
                         placeholder={' password'}
                         secureTextEntry={true}
                         color = 'white'
@@ -128,7 +133,7 @@ export default class SignIn extends Component {
 
                     <TouchableOpacity
                         style={[styles.pinkButton,]}
-                        onPress={this.loginUser}>
+                        onPress={loginUser}>
                         <Text style={styles.blueButtonText}>Sign in</Text>
                     </TouchableOpacity>
 
@@ -136,9 +141,6 @@ export default class SignIn extends Component {
             );
         }
 
-
-
-    };
 }
 
 
