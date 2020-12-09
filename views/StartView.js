@@ -24,11 +24,7 @@ export default function StartView({navigation}) {
                 <Text style={styles.signUpText}>Haven't received login information? Tap here!</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-                style={styles.signUpButton1}
-                onPress={() => navigation.navigate('/login')}>
-                <Text style={styles.signUpText}>Forgot your password?</Text>
-            </TouchableOpacity>
+            <Image style={styles.image1} source={require('../assets/festivol1.jpg')}></Image>
 
         </View>
     );
@@ -52,8 +48,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 50,
         fontWeight: 'bold',
-        marginTop: 35,
-        marginBottom: 5,
+        marginTop: 25,
+        marginBottom: 0,
     },
 
     subHeader:{
@@ -87,7 +83,7 @@ const styles = StyleSheet.create({
         borderColor: '#47525E',
         paddingVertical: 20,
         paddingHorizontal: 30,
-        marginTop: 70,
+        marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -102,7 +98,7 @@ const styles = StyleSheet.create({
         borderColor: '#47525E',
         paddingVertical: 18,
         paddingHorizontal: 50,
-        marginTop: 20,
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -119,20 +115,9 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '10%',
         elevation: 8,
-        marginTop: 20,
-        //marginBottom: 10,
+        marginTop: 10,
+        marginBottom: -15,
         fontWeight: 'bold',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    signUpButton1:{
-        width: '100%',
-        height: '10%',
-        elevation: 8,
-        marginTop: 20,
-        marginBottom: 10,
-        //fontWeight: 'bold',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -144,8 +129,14 @@ const styles = StyleSheet.create({
 
     image:{
         marginTop: 50,
-        width: 300,
-        height: 300,
+        width: 275,
+        height: 275,
+    },
+
+    image1:{
+        marginTop: 0,
+        width: 150,
+        height: 150,
     },
 
 });

@@ -17,7 +17,7 @@ import InformationView from "./InformationView";
 import { auth, fsRef } from './../FirebaseConfig';
 import {useUserStore} from '../store/UserStore';
 
-export default function SignIn ({navigation}) {
+export default function LoginView ({navigation}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -93,8 +93,6 @@ export default function SignIn ({navigation}) {
             setIsLoggedIn(false);
         });
     };
-
-
 
         if(isLoggedIn){
             return(
