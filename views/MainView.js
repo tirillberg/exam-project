@@ -1,8 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 
-export default function MainView({navigation}) {
+export default function MainView() {
 
     return (
         /*Her har vi et View med klassenavnet container og der er en enkel render View*/
@@ -15,7 +14,7 @@ export default function MainView({navigation}) {
 
             <Image style={styles.image} source={require('../assets/image2.png')}></Image>
 
-            <Text style={styles.subHeader}>LATEST NEWS!</Text>
+            <Text style={styles.subHeader}>VELKOMMEN!</Text>
 
             <ScrollView style={styles.scrollView}>
 
@@ -88,25 +87,6 @@ const styles = StyleSheet.create({
         paddingTop:10
     },
 
-    list:{
-        backgroundColor: 'black',
-        width: '85%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: 'white',
-        marginTop: 20,
-        marginBottom: 20,
-    },
-
-    listItem:{
-        backgroundColor: 'black',
-        width: '100%',
-        borderWidth: 0,
-        marginTop: 10,
-        marginBottom: 10,
-        justifyContent: 'center',
-    },
 
     header:{
         color: 'white',

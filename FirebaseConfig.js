@@ -17,8 +17,9 @@ const config = {
 };
 
 firebase.initializeApp(config);
-//Firestore referanse
+//Firestore Cloud Database (det vi bruker) referanse
 export const fsRef = firebase.firestore();
+//Firebase authentication, brukes for å håndtere autentisering/innlogging
 export const auth = firebase.auth();
 //hvis det er realtime firebase
 export const fbRef = firebase;

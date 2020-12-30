@@ -1,8 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, from 'react';
 import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Image} from 'react-native';
 
-export default function InformationView({navigation}) {
+export default function InformationView() {
 
 
     return (

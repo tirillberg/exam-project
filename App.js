@@ -3,22 +3,20 @@ import {StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import StartView from "./views/StartView";
-import MainView from "./views/MainView";
-import SettingsView from "./views/SettingsView";
 import SignUpView from "./views/SignUpView";
 import LoginView from "./views/LoginView";
-import CalendarView from "./views/CalendarView";
-import MapView from "./views/MapView";
+import AppBottomNav from "./views/AppBottomNav";
 import ConsentView from "./views/ConsentView";
-import EditSettingsView from "./views/EditSettingsView";
 
 const Stack = createStackNavigator();
 
 export default function App () {
 
-    //render() {
         //oppretter stack navigator som holder styr på navigasjon. Denne delen er ytterste og første del av stacken
         return (
+            //Her deklareres alle de views'ene om vises, og ingenting annet vises.
+            //De views som vises ut over disse er så vist innad i et eller flere av disse views.
+            //Fx i /nav er de andre vist.
             <NavigationContainer>
                 <Stack.Navigator initialRouteName='/start'>
                     <Stack.Screen
@@ -28,16 +26,11 @@ export default function App () {
                     />
 
                     <Stack.Screen
-                        name='/main'
-                        component={MainView}
+                        name='/nav'
+                        component={AppBottomNav}
                         options={{ headerShown: false }}
                     />
 
-                    <Stack.Screen
-                        name='/settings'
-                        component={SettingsView}
-                        options={{ headerShown: false }}
-                    />
 
                     <Stack.Screen
                         name='/signUp'
@@ -57,30 +50,11 @@ export default function App () {
                         options={{ headerShown: false }}
                     />
 
-                    <Stack.Screen
-                        name='/calendar'
-                        component={CalendarView}
-                        options={{ headerShown: false }}
-                    />
-
-                    <Stack.Screen
-                        name='/map'
-                        component={MapView}
-                        options={{ headerShown: false }}
-                    />
-
-                    <Stack.Screen
-                        name='/editSettings'
-                        component={EditSettingsView}
-                        options={{ headerShown: false }}
-                    />
-
                 </Stack.Navigator>
             </NavigationContainer>
 
         );
 
-    //}
 }
 
 const styles = StyleSheet.create({

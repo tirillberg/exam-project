@@ -1,22 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import {View, Image, TouchableOpacity, Text, StyleSheet, TextInput, Alert} from 'react-native';
-import { auth, fsRef } from './../FirebaseConfig';
+import { fsRef } from './../FirebaseConfig';
 import {useUserStore} from '../store/UserStore';
 
-export default function SettingsView ({navigation}) {
+export default function SettingsView () {
 
-    //Her brukes en global hook, altså at vi setter brukeren, så kan vi bruke denne brukeren hvor som helst i appen/programmet,
+    //Her hentes den global hook, altså at vi setter brukeren, så kan vi bruke denne brukeren hvor som helst i appen/programmet,
     //og ikke kun i dette View.
     const {user, setUser} = useUserStore(
         state => ({user: state.user, setUser: state.setUser })
     );
 
+    //nye hook opprettes:
     const [isEditing, setIsEditing] = useState(false);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [age, setAge] = useState('');
 
+    //componentDidMount
+    //fetching global data og setter dette til det nye userobjektet
     useEffect(()=>{
         setName(user.name);
         setEmail(user.email);
@@ -68,6 +71,7 @@ export default function SettingsView ({navigation}) {
         setIsEditing(!isEditing);
     }
 
+    //Dette er dersom userobjektet ikke finnes globalt. Det skal ikke skje.
         if (!user) {
             return <Text style ={styles.subHeader}>No data</Text>;
         }
@@ -88,6 +92,7 @@ export default function SettingsView ({navigation}) {
                 />*/}
 
                 {/*? - questions mark means one thing or another - isEditing is true then the below is showing. */}
+                {/*Basically an if/else statement. Before the colon: if, after color: else*/}
                 {isEditing?
                     <View>
                         <TextInput
@@ -144,6 +149,7 @@ export default function SettingsView ({navigation}) {
                     {/*Knapp: isEditing er true så vises "Save changes", mens hvis den er false så vises "Edit your profile"*/}
                     <Text style={styles.pinkButtonText}>{isEditing?'Save changes':'Edit your profile'}</Text>
                 </TouchableOpacity>
+
             </View>
         );
 }
@@ -221,8 +227,7 @@ const styles = StyleSheet.create({
         borderColor: '#47525E',
         paddingVertical: 15,
         paddingHorizontal: 68,
-        marginTop: 45,
-        marginBottom: 150,
+        marginTop: 25,
     },
 
     pinkButtonText: {
@@ -269,7 +274,6 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        //marginTop: 5,
         marginBottom: 40,
         width: 115,
         height: 115,

@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 
@@ -8,9 +7,11 @@ export default function StartView({navigation}) {
         /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
         <View style={styles.container}>
 
-            <Image style={styles.image} source={require('../assets/image1.png')}></Image>
+            <Image style={styles.image}
+                   source={require('../assets/festivol2.jpg')}>
+            </Image>
 
-            <Text style={styles.header}>VELKOMMEN!</Text>
+            <Text style={styles.header}>WELCOME!</Text>
 
             <TouchableOpacity
                 style={styles.blueButton}
@@ -23,8 +24,6 @@ export default function StartView({navigation}) {
                 onPress={() => navigation.navigate('/signUp')}>
                 <Text style={styles.signUpText}>Haven't received login information? Tap here!</Text>
             </TouchableOpacity>
-
-            <Image style={styles.image1} source={require('../assets/festivol1.jpg')}></Image>
 
         </View>
     );
@@ -46,10 +45,10 @@ const styles = StyleSheet.create({
 
     header:{
         color: 'white',
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 25,
-        marginBottom: 0,
+        marginTop: 0,
+        marginBottom: 10,
     },
 
     subHeader:{
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     },
 
     blueButton:{
-        backgroundColor: '#25BDAD',
+        backgroundColor: '#ea534a',
         color: '#47525E',
         width: '75%',
         height: '10%',
@@ -124,13 +123,13 @@ const styles = StyleSheet.create({
 
     signUpText: {
         fontWeight:'bold',
-        color: '#F05A89'
+        color: '#ea534a'
     },
 
     image:{
         marginTop: 50,
-        width: 275,
-        height: 275,
+        width: 350,
+        height: 350,
     },
 
     image1:{
