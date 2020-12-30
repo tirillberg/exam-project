@@ -1,128 +1,200 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Image} from 'react-native';
+import { auth, fsRef } from './../FirebaseConfig';
+import {useUserStore} from '../store/UserStore';
 
 export default function ConsentView({navigation}) {
+
+    //henter den globale hook/user fra UserStore
+    const {user, setUser} = useUserStore(
+        state => ({user: state.user, setUser: state.setUser })
+    );
+
+    //denne kjøres når man trykker på "I accept"-knappen.
+    const handleConsent = async () => {
+        //finner brukeren
+        const volunteerRef = fsRef.collection("volunteers").doc(user.id);
+        //når brukeren oppdateres så endres consent til true:
+        await volunteerRef.update(
+            {
+                consent: true,
+            }
+        ).then(()=> {
+        console.log('Update consent');
+            //ønsker å oppdatere consent globalt:
+            setUser({
+                name: user.name,
+                email: user.email,
+                age: user.age,
+                id: user.id,
+                consent: true,
+            });
+            navigation.navigate('/nav');
+        }).catch( e => {
+            console.log('error: ',e)
+                navigation.navigate('/start');
+            }
+        )
+    }
 
         return (
             /*Her har vi et et View med klasse navnet container og der er en enkel render View*/
             <View style={styles.container}>
 
-                <Text style={styles.header}>...ALMOST DONE</Text>
-
-                <Text style={styles.subHeader}>Read through our terms and conditions</Text>
-
                 <ScrollView style={styles.styledView}>
-                    <Text style={styles.text1}>Hvad er Lorem Ipsum?
-                        Lorem Ipsum er ganske enkelt fyldtekst fra print- og typografiindustrien. Lorem Ipsum har
-                        været standard fyldtekst siden 1500-tallet, hvor en ukendt trykker sammensatte en tilfældig
-                        spalte for at trykke en bog til sammenligning af forskellige skrifttyper. Lorem Ipsum har
-                        ikke alene overlevet fem århundreder, men har også vundet indpas i elektronisk typografi
-                        uden væsentlige ændringer. Sætningen blev gjordt kendt i 1960'erne med lanceringen af
-                        Letraset-ark, som indeholdt afsnit med Lorem Ipsum, og senere med layoutprogrammer som Aldus
-                        PageMaker, som også indeholdt en udgave af Lorem Ipsum.
 
-                        Hvorfor bruger vi det?
-                        Det er en kendsgerning, at man bliver distraheret af læsbart indhold på en side, når man
-                        betragter dens layout. Meningen med at bruge Lorem Ipsum er, at teksten indeholder mere
-                        eller mindre almindelig tekstopbygning i modsætning til "Tekst her - og mere tekst her",
-                        mens det samtidigt ligner almindelig tekst. Mange layoutprogrammer og webdesignere bruger
-                        Lorem Ipsum som fyldtekst. En søgning på Lorem Ipsum afslører mange websider, som stadig er
-                        på udviklingsstadiet. Der har været et utal af variationer, som er opstået enten på grund af
-                        fejl og andre gange med vilje (som blandt andet et resultat af humor).
+                    <Image style={styles.image1} source={require('../assets/image2.png')}></Image>
 
+                <Text style={styles.header}>Før du kan gå videre må du lese gjennom noen instrukser</Text>
 
-                        Hvor kommer det fra?
-                        I modsætning til hvad mange tror, er Lorem Ipsum ikke bare tilfældig tekst. Det stammer fra
-                        et stykke litteratur på latin fra år 45 f.kr., hvilket gør teksten over 2000 år gammel.
-                        Richard McClintock, professor i latin fra Hampden-Sydney universitet i Virginia, undersøgte
-                        et af de mindst kendte ord "consectetur" fra en del af Lorem Ipsum, og fandt frem til dets
-                        oprindelse ved at studere brugen gennem klassisk litteratur. Lorem Ipsum stammer fra
-                        afsnittene 1.10.32 og 1.10.33 fra "de Finibus Bonorum et Malorum" (Det gode og ondes
-                        ekstremer), som er skrevet af Cicero i år 45 f.kr. Bogen, som var meget populær i
-                        renæssancen, er en afhandling om etik. Den første linie af Lorem Ipsum "Lorem ipsum dolor
-                        sit amet..." kommer fra en linje i afsnit 1.10.32.
+                <Text style={styles.subHeader}>TIL FRIVILLIGE, PUBLIKUMSVERTER OG SERVERINGSPERSONELL</Text>
 
-                        Standardafsnittet af Lorem Ipsum, som er brugt siden 1500-tallet, er gengivet nedenfor for
-                        de, der er interesserede. Afsnittene 1.10.32 og 1.10.33 fra "de Finibus Bonorum et Malorum"
-                        af Cicero er også gengivet i deres nøjagtige udgave i selskab med den engelske udgave fra
-                        oversættelsen af H. Rackham fra 1914.
-                        Hvad er Lorem Ipsum?
-                        Lorem Ipsum er ganske enkelt fyldtekst fra print- og typografiindustrien. Lorem Ipsum har
-                        været standard fyldtekst siden 1500-tallet, hvor en ukendt trykker sammensatte en tilfældig
-                        spalte for at trykke en bog til sammenligning af forskellige skrifttyper. Lorem Ipsum har
-                        ikke alene overlevet fem århundreder, men har også vundet indpas i elektronisk typografi
-                        uden væsentlige ændringer. Sætningen blev gjordt kendt i 1960'erne med lanceringen af
-                        Letraset-ark, som indeholdt afsnit med Lorem Ipsum, og senere med layoutprogrammer som Aldus
-                        PageMaker, som også indeholdt en udgave af Lorem Ipsum.
-
-                        Hvorfor bruger vi det?
-                        Det er en kendsgerning, at man bliver distraheret af læsbart indhold på en side, når man
-                        betragter dens layout. Meningen med at bruge Lorem Ipsum er, at teksten indeholder mere
-                        eller mindre almindelig tekstopbygning i modsætning til "Tekst her - og mere tekst her",
-                        mens det samtidigt ligner almindelig tekst. Mange layoutprogrammer og webdesignere bruger
-                        Lorem Ipsum som fyldtekst. En søgning på Lorem Ipsum afslører mange websider, som stadig er
-                        på udviklingsstadiet. Der har været et utal af variationer, som er opstået enten på grund af
-                        fejl og andre gange med vilje (som blandt andet et resultat af humor).
-
-
-                        Hvor kommer det fra?
-                        I modsætning til hvad mange tror, er Lorem Ipsum ikke bare tilfældig tekst. Det stammer fra
-                        et stykke litteratur på latin fra år 45 f.kr., hvilket gør teksten over 2000 år gammel.
-                        Richard McClintock, professor i latin fra Hampden-Sydney universitet i Virginia, undersøgte
-                        et af de mindst kendte ord "consectetur" fra en del af Lorem Ipsum, og fandt frem til dets
-                        oprindelse ved at studere brugen gennem klassisk litteratur. Lorem Ipsum stammer fra
-                        afsnittene 1.10.32 og 1.10.33 fra "de Finibus Bonorum et Malorum" (Det gode og ondes
-                        ekstremer), som er skrevet af Cicero i år 45 f.kr. Bogen, som var meget populær i
-                        renæssancen, er en afhandling om etik. Den første linie af Lorem Ipsum "Lorem ipsum dolor
-                        sit amet..." kommer fra en linje i afsnit 1.10.32.
-
-                        Standardafsnittet af Lorem Ipsum, som er brugt siden 1500-tallet, er gengivet nedenfor for
-                        de, der er interesserede. Afsnittene 1.10.32 og 1.10.33 fra "de Finibus Bonorum et Malorum"
-                        af Cicero er også gengivet i deres nøjagtige udgave i selskab med den engelske udgave fra
-                        oversættelsen af H. Rackham fra 1914.
-                        Hvad er Lorem Ipsum?
-                        Lorem Ipsum er ganske enkelt fyldtekst fra print- og typografiindustrien. Lorem Ipsum har
-                        været standard fyldtekst siden 1500-tallet, hvor en ukendt trykker sammensatte en tilfældig
-                        spalte for at trykke en bog til sammenligning af forskellige skrifttyper. Lorem Ipsum har
-                        ikke alene overlevet fem århundreder, men har også vundet indpas i elektronisk typografi
-                        uden væsentlige ændringer. Sætningen blev gjordt kendt i 1960'erne med lanceringen af
-                        Letraset-ark, som indeholdt afsnit med Lorem Ipsum, og senere med layoutprogrammer som Aldus
-                        PageMaker, som også indeholdt en udgave af Lorem Ipsum.
-
-                        Hvorfor bruger vi det?
-                        Det er en kendsgerning, at man bliver distraheret af læsbart indhold på en side, når man
-                        betragter dens layout. Meningen med at bruge Lorem Ipsum er, at teksten indeholder mere
-                        eller mindre almindelig tekstopbygning i modsætning til "Tekst her - og mere tekst her",
-                        mens det samtidigt ligner almindelig tekst. Mange layoutprogrammer og webdesignere bruger
-                        Lorem Ipsum som fyldtekst. En søgning på Lorem Ipsum afslører mange websider, som stadig er
-                        på udviklingsstadiet. Der har været et utal af variationer, som er opstået enten på grund af
-                        fejl og andre gange med vilje (som blandt andet et resultat af humor).
-
-
-                        Hvor kommer det fra?
-                        I modsætning til hvad mange tror, er Lorem Ipsum ikke bare tilfældig tekst. Det stammer fra
-                        et stykke litteratur på latin fra år 45 f.kr., hvilket gør teksten over 2000 år gammel.
-                        Richard McClintock, professor i latin fra Hampden-Sydney universitet i Virginia, undersøgte
-                        et af de mindst kendte ord "consectetur" fra en del af Lorem Ipsum, og fandt frem til dets
-                        oprindelse ved at studere brugen gennem klassisk litteratur. Lorem Ipsum stammer fra
-                        afsnittene 1.10.32 og 1.10.33 fra "de Finibus Bonorum et Malorum" (Det gode og ondes
-                        ekstremer), som er skrevet af Cicero i år 45 f.kr. Bogen, som var meget populær i
-                        renæssancen, er en afhandling om etik. Den første linie af Lorem Ipsum "Lorem ipsum dolor
-                        sit amet..." kommer fra en linje i afsnit 1.10.32.
-
-                        Standardafsnittet af Lorem Ipsum, som er brugt siden 1500-tallet, er gengivet nedenfor for
-                        de, der er interesserede. Afsnittene 1.10.32 og 1.10.33 fra "de Finibus Bonorum et Malorum"
-                        af Cicero er også gengivet i deres nøjagtige udgave i selskab med den engelske udgave fra
-                        oversættelsen af H. Rackham fra 1914.
+                    <Text style={styles.text2}>
+                        DIN ROLLE
                     </Text>
+                    <Text style={styles.text1}>
+                        Som frivillig, er du ikke ansvarlig for sikkerheten, men du er en viktig støttespiller til sikkerhetspersonalet.
+                        Jo mer du hjelper til, jo bedre er det. Her følger noen enkle instrukser som du kan bære med deg til enhver tid.
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Unnlat å bruke telefonen til private SMS‘er og samtaler i arbeidstiden.
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Ikke ta bilder av artister når du er på jobb.
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Ikke røyk eller spis når du står på post.
+                    </Text>
+
+                    <Text style={styles.text2}>
+                        I EN NORMAL SITUASJON
+                    </Text>
+                    <Text style={styles.text1}>
+                        Vær alltid oppmerksom på at alt rundt deg er normalt.
+                        Her gjelder alt fra steder det er trangt og vanskelig å bevege seg, om du ser folk etterlater
+                        seg objekter eller om det er konstruksjoner som er overbelastet av mennesker.
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Gi beskjed til din overordnede
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Bli på stedet eller hos personene
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Noter ned det du har sett
+                    </Text>
+
+                    <Text style={styles.text2}>
+                        DERSOM DU KOMMER OPP I EN KONFLIKTSITUASJON
+                    </Text>
+                    <Text style={styles.text1}>
+                        Din sikkerhet kommer først, deretter dine kollegaer og gjestene.
+                        Vi forventer at du handler, men du skal ikke utsette deg selv for fare.
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Tilkall hjelp
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Trekk deg tilbake
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Vurder hvor farlig situasjonen er
+                    </Text>
+
+                    <Text style={styles.text2}>
+                        BRANN
+                    </Text>
+                    <Text style={styles.text3}>
+                        Dersom du oppdager brann skal du:
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Varsle andre og utløse alarm
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Kontakte brannvernleder og informere om hvor det brenner, eventuelt hva som
+                        brenner og om noen eller alle er evakuert
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Forsøke å slokke brannen
+                    </Text>
+                    <Text style={styles.text3}>
+                        MERK! REKKEFØLGE VARSLE/ SLOKKE/REDDE MÅ VURDERES I HVERT ENKELT TILFELLE!
+                    </Text>
+
+                    <Text style={styles.text2}>
+                        SLUKNINGSMATERIELL
+                    </Text>
+                    <Text style={styles.text3}>
+                        Det vil være håndslukkere tilgjengelig alle steder der brann kan oppstå:
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Ved/i bygninger
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Ved og på scene
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Ved mikseposisjon
+                    </Text>
+                    <Text style={styles.text1}>
+                        • I serverings- og salgspunkter
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Ved åpne containere i publikumsområdene
+                    </Text>
+                    <Text style={styles.text3}>
+                        Der håndslukker ikke er synlig plassert markeres posisjon med skilt:
+                    </Text>
+
+                    <Image style={styles.image2} source={require('../assets/demo1.png')}></Image>
+
+                    <Text style={styles.text2}>
+                        SIGNALEMENT
+                    </Text>
+                    <Text style={styles.text3}>
+                        Når du skal fortelle din overordnede hvem du leter etter, eller du skal avgi vitneutsagn,
+                        er det en fordel å notere ned signalement:
+                    </Text>
+                    <Text style={styles.text1}>
+                        GENERELT:
+                        Kjønn, alder kroppsbygning
+                    </Text>
+                    <Text style={styles.text1}>
+                        UTSEENDE:
+                        Hudfarge, hårfarge, frisyre, øyenfarge, skjeggtype, særlige kjennetegn som tatoveringer og lignende
+                    </Text>
+
+                    <Text style={styles.text2}>
+                        SKADER
+                    </Text>
+                    <Text style={styles.text3}>
+                        Gjør deg kjent med plasseringen av førstehjelpsstasjonene og annen medisinsk beredskap.
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Tilkall hjelp
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Tilkall din overordnede
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Få et overblikk over situasjonen
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Sett i gang med førstehjelp
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Sperr av området
+                    </Text>
+                    <Text style={styles.text1}>
+                        • Bli ved pasienten(e) til hjelpen kommer
+                    </Text>
+
                 </ScrollView>
 
                 <TouchableOpacity
-                    style={styles.blueButton}
-                    //onPress={() => navigation.push('/main')}>
-                    onPress={this.loginUser}>
-                    <Text style={styles.blueButtonText}>I agree</Text>
+                    style={styles.pinkButton}
+                    onPress={handleConsent}>
+                    <Text style={styles.pinkButtonText}>I agree</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -149,14 +221,14 @@ const styles = StyleSheet.create({
 
     header:{
         color: 'white',
-        fontSize: 40,
+        fontSize: 35,
         fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 15,
+        marginTop: 5,
+        marginBottom: 20,
     },
 
     subHeader:{
-        color: '#F05A89',
+        color: '#25BDAD',
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
@@ -165,10 +237,28 @@ const styles = StyleSheet.create({
 
     text1:{
         color: 'white',
+        marginBottom: 10,
+        marginRight: 15,
     },
 
-    blueButton:{
-        backgroundColor: '#25BDAD',
+    text2:{
+        color: '#F05A89',
+        fontWeight: 'bold',
+        fontSize: 17,
+        marginTop: 20,
+        marginBottom: 10,
+        marginRight: 15,
+    },
+
+    text3:{
+        color: 'white',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginRight: 15,
+    },
+
+    pinkButton:{
+        backgroundColor: '#F05A89',
         color: '#47525E',
         width: '73%',
         height: '7%',
@@ -181,10 +271,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 
-    blueButtonText: {
+    pinkButtonText: {
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 15.5,
+        fontWeight: 'bold',
+        color: 'white',
     },
 
     whiteButton:{
@@ -196,8 +288,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0,
         borderColor: '#47525E',
-        paddingVertical: 12,
-        paddingHorizontal: 110,
+        paddingVertical: 15,
+        paddingHorizontal: 115,
         marginTop: 10,
         marginBottom: 10,
     },
@@ -217,7 +309,22 @@ const styles = StyleSheet.create({
         height:380,
         marginLeft: 15,
         marginRight: 15,
-    }
+    },
+
+    image1:{
+        marginTop: 40,
+        width: '90%',
+        height: 100,
+        marginBottom: 20,
+    },
+
+    image2:{
+        width: 115,
+        height: 115,
+        borderColor: 'white',
+        borderWidth: 1,
+        //borderRadius: 60,
+    },
 
 });
 

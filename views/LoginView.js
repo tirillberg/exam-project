@@ -1,41 +1,34 @@
-import React, {useState, useEffect, Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
-import {createBottomTabNavigator} from "react-navigation-tabs";
-import {createAppContainer} from "react-navigation";
-import {AntDesign} from "@expo/vector-icons";
-import { Entypo } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import MainView from "./MainView";
-import CalendarView from "./CalendarView";
-import ConsentView from "./ConsentView";
-import MapView from "./MapView";
-import SettingsView from "./SettingsView";
-import InformationView from "./InformationView";
-//importerer {auth} for å hente fra FirebaseConfig
 import { auth, fsRef } from './../FirebaseConfig';
 import {useUserStore} from '../store/UserStore';
 
 export default function LoginView ({navigation}) {
 
+    //Deklarerer hooks: email og password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    //Her brukes en global hook, altså at vi setter brukeren, så kan vi bruke denne brukeren hvor som helst i appen/programmet,
-    //og ikke kun i dette View.
+    //Her brukes en global hook, altså at vi setter brukeren, så kan vi bruke denne brukeren
+    // hvor som helst i appen/programmet og ikke kun i dette View.
     const {user, setUser} = useUserStore(
         state => ({user: state.user, setUser: state.setUser })
     );
 
-    //hver gang vi endrer user-objektet, så printes dette ut:
+    //hver gang vi endrer user-objektet, så printes dette ut for å sjekke at alt fungerer som det skal.
+    //for å gjøre det mer synlig det som skjer
+    //dette tilsvarer componentDidUpdate hvis det var klassekomponent
     useEffect(()=>{
         console.log('Global user: ' + user);
     },[user]);
 
+    //Async - do NOT halt all other operations while waiting for the web service call to return
     const loginUser = async () => {
-
+        //let variables can be updated but not re-declared
+        //hvis brukeren som logges inn ikke har consent = true, er denne uendret og blir værende false.
+        let consent = false;
+        //await gjør på en måte sånn at async blir sync, altså man skal vente på email og password blir sjekket.
+        //bruker auth
         await auth.signInWithEmailAndPassword(email, password).then(
             //then --> sign in og password går fint = så håndterer den det som står i then.
             //hvis ikke håndterer den det i catch
@@ -52,12 +45,15 @@ export default function LoginView ({navigation}) {
                         console.log("Document data:", doc.data());
                         //hvis doc'et matcher et doc i databasen så logges brukeren inn
 
-                        //dette som gjør at brukeren er logget inn, men det bør endres til hooks!!!
-                        setIsLoggedIn(true);
                         //her setter vi user globalt
                         setUser(doc.data());
-                        // bare logg inn brukeren her, for her finnes brukeren allerede i databasen
+                        //consent står oppstilt her, fordi den skal brukes senere i samme metode.
+                        consent = doc.data().consent;
+                        // bare logger inn brukeren her, for her finnes brukeren allerede i databasen
                     } else {
+                        //hvis brukeren ikke er logget inn før, altså at vedkommende har fått bruker-
+                        //informasjon av fx Bergenfest så er det det under som vises, altå at ved-
+                        //kommende ikke har noe navn, eller alder registrert, og consent = false.
                         const newUser = {
                             name: '',
                             email: email,
@@ -67,20 +63,25 @@ export default function LoginView ({navigation}) {
                             //hvis ovenstående går fint så kommer "then"
                             //Nye doc'et blir skrevet suksessfult
                         };
-                        // doc.data() will be undefined in this case
-                        console.log("No such document!");
                         //hvis doc'et ikke finnes så logges man på men så blir doc'et tilføyet til databasen
                         //men satt til å ikke ha noe navn, email eller alder
                         volunteerRef.set(newUser).then(function() {
-                            console.log("Document successfully written!");
-
-                            setIsLoggedIn(true);
+                            console.log("User registered and added to database");
                             //her setter vi user globalt
                             setUser(newUser);
                         })
                             .catch(function(error) {
-                                console.error("Error writing document: ", error);
+                                console.error("Error adding user to database: ", error);
                             });
+                    }
+                    console.log('Redirect to navigation with consent = ',consent);
+                    //consent = true
+                    if (consent) {
+                        navigation.navigate('/nav');
+                    }
+                    //consent = false
+                    else {
+                        navigation.navigate('/consent');
                     }
                 }).catch(function(error) {
                     console.log("Error getting document:", error);
@@ -90,141 +91,52 @@ export default function LoginView ({navigation}) {
         ).catch((e)=>{
             console.log(e);
             alert('Wrong username or password')
-            setIsLoggedIn(false);
         });
     };
 
-        if(isLoggedIn){
-            return(
-                //<ConsentView/>
-                <AppBottomNav/>
-            )
-        }else{
+    //Det ovenfor er funksjonaliteten på denne siden, mens det under, det som returneres
+    //er det som vises front-end
+    return (
+        <View style={styles.container}>
 
-            return (
-                <View style={styles.container}>
+            <Image style={styles.image} source={require('../assets/festivol3.png')}></Image>
 
-                    <Image style={styles.image} source={require('../assets/image2.png')}></Image>
+            <Text style={styles.header}>SIGN IN</Text>
 
-                    <Text style={styles.header}>SIGN IN</Text>
+            <TextInput
+                value={email}
+                //keyboardType = 'email-address'
+                onChangeText={(string) => setEmail(string)}
+                placeholder=' email'
+                placeholderTextColor = 'white'
+                style={styles.textInput}
+                selectionColor={'#ea534a'}
+            />
 
-                    <TextInput
-                        value={email}
-                        //keyboardType = 'email-address'
-                        onChangeText={(string) => setEmail(string)}
-                        placeholder=' email'
-                        placeholderTextColor = 'white'
-                        style={styles.textInput}
-                        selectionColor={'#F05A89'}
-                    />
+            <TextInput
+                value={password}
+                onChangeText={(string) => setPassword(string)}
+                placeholder={' password'}
+                secureTextEntry={true}
+                color = 'white'
+                placeholderTextColor = 'white'
+                style={styles.textInput}
+                selectionColor={'#ea534a'}
+            />
 
-                    <TextInput
-                        value={password}
-                        onChangeText={(string) => setPassword(string)}
-                        placeholder={' password'}
-                        secureTextEntry={true}
-                        color = 'white'
-                        placeholderTextColor = 'white'
-                        style={styles.textInput}
-                        selectionColor={'#F05A89'}
-                    />
+            <TouchableOpacity
+                style={[styles.pinkButton,]}
+                onPress={loginUser}>
+                <Text style={styles.blueButtonText}>Sign in</Text>
+            </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={[styles.pinkButton,]}
-                        onPress={loginUser}>
-                        <Text style={styles.blueButtonText}>Sign in</Text>
-                    </TouchableOpacity>
+        </View>
+    );
 
-                </View>
-            );
-        }
 
 }
 
 
-// Denne TabNavigator holder styr på det ytterste nivået av navigasjon i appen.
-// Det er altså menyen som ligger nede i systemet, og skal hjelpe med å navigere.
-
-const TabNavigator = createBottomTabNavigator(
-    {
-        /*Tilføj routes*/
-        Main: {
-            /*Hvilket view skal loades*/
-            screen: MainView,
-            /*Instillinger til navigation*/
-            navigationOptions: {
-                /*Navn*/
-                tabBarLabel:'Home',
-                /*Ikon*/
-                tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name="home" size={24} color='white' />
-                    )
-            },
-        },
-
-        Calendar: {
-            screen: CalendarView,
-            navigationOptions: {
-                tabBarLabel:'Schedule',
-                tabBarIcon: ({ tintColor }) => (
-                    <MaterialIcons name="schedule" size={24} color="white" />
-                )
-            },
-        },
-
-
-        Map: {
-            screen: MapView,
-            navigationOptions: {
-                tabBarLabel:'Map',
-                tabBarIcon: ({ tintColor }) => (
-                    <Entypo name='address' size={24} color='white' />
-                    )
-            },
-        },
-
-        Documentation: {
-            screen: InformationView,
-            navigationOptions: {
-                tabBarLabel:'Info',
-                tabBarIcon: ({ tintColor }) => (
-                    <AntDesign name='exception1' size={24} color='white' />
-                    )
-            },
-        },
-
-        /*Navn på Route*/
-        Settings: {
-            screen: SettingsView,
-            navigationOptions: {
-                tabBarLabel:'Profile',
-                tabBarIcon: ({ tintColor }) => (
-                    /*<Feather name='settings' size={24} color='white' />*/
-                    <AntDesign name="user" size={24} color="white" />
-                    /*<FontAwesome5 name="user" size={24} color="white" />*/
-                    )
-            },
-        },
-
-
-    },
-    /*Generelle label indstillinger*/
-    {
-        tabBarOptions: {
-            showIcon:true,
-            labelStyle: {
-                fontSize: 15,
-            },
-            activeTintColor: '#F05A89',
-            inactiveTintColor: 'white',
-            activeBackgroundColor: '#17191F',
-            inactiveBackgroundColor: '#17191F',
-            size: 50,
-        }
-    }
-)
-
-const AppBottomNav = createAppContainer(TabNavigator);
 
 
 const styles = StyleSheet.create({
@@ -232,7 +144,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#2E223A',
+        backgroundColor: '#17191F',
     },
 
     component:{
@@ -300,7 +212,7 @@ const styles = StyleSheet.create({
     },
 
     pinkButton:{
-        backgroundColor: '#F05A89',
+        backgroundColor: '#ea534a',
         color: '#47525E',
         width: '60%',
         height: '7.5%',
@@ -339,9 +251,9 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        marginTop: 75,
-        width: '90%',
-        height: 100,
+        marginTop: 150,
+        width: 200,
+        height: 120,
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import Map from "react-native-maps";
 import {StyleSheet} from "react-native";
@@ -35,19 +34,4 @@ const styles = StyleSheet.create({
         paddingTop: 10
     },
 
-    header: {
-        color: 'white',
-        fontSize: 40,
-        fontWeight: 'bold',
-        marginTop: 40,
-        marginBottom: 20,
-    },
-
-    subHeader: {
-        color: '#25BDAD',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 30,
-        alignItems: 'center',
-    },
 });
