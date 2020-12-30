@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Image} from 'react-native';
 import { auth, fsRef } from './../FirebaseConfig';
 import {useUserStore} from '../store/UserStore';
